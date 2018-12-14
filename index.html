@@ -267,8 +267,32 @@
                 <!-- end col -->
             </div>
             <!--- END ROW -->
-            <div class=row">
+            <div class="row">
               <div id="bancor-wc" class="custom-widget"></div>
+            </div>
+            <div id="uniswap-convert-section">
+                <h3>Convert Tokens on Uniswap Exchange</h3>
+                <form class="form-inline mt-lg" id="uniswap-form">
+                  <div class="form-group mr-sm-3">
+                     <label>From</label>
+                     <select name="convert-from" id="convert-from" class="form-control">
+                        <option>ETH</option>
+                        <option>ULT</option>
+                     </select>
+                  </div>
+                  <div class="form-group mr-sm-3">
+                     <label>To</label>
+                     <select name="convert-to" id="convert-to" class="form-control">
+                        <option>ULT</option>
+                        <option>ETH</option>
+                     </select>
+                  </div>
+                  <div class="form-group mr-sm-3">
+                    <label>Amount</label>
+                    <input type="number" name="swap-amount" id="swap-amount" class="form-control">
+                  </div>
+                  <button type="submit" class="btn btn-primary">Swap</button>
+                </form>
             </div>
         </div>
         <!--- END CONTAINER -->
@@ -755,6 +779,7 @@
     <script src="assets/js/scrolltopcontrol.js"></script>
     <!-- form-contact js -->
     <script src="assets/js/form-contact.js"></script>
+    <script src="assets/js/bignumber.min.js"></script>
     <!-- jQuery Toasts -->
     <script src="node_modules/jquery-toast-plugin/dist/jquery.toast.min.js"></script>
 
@@ -770,6 +795,9 @@
     </script>
     <!-- Our Homebrew Scripts -->
     <script src="assets/js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
+     <script src="assets/js/uniswap-abi.js"></script>
+     <script src="assets/js/uniswap.js"></script>
 </body>
 
 </html>
