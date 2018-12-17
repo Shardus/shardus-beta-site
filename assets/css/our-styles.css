@@ -337,12 +337,15 @@ a.nav-link.nav-dropdown-link:active, a.nav-link.nav-dropdown-link:focus {
 }
 
 #uniswap-convert-section {
-  margin-top: 30px;
-  text-align: center;
+    margin: 30px;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 #uniswap-convert-section h3 {
-  margin: 10px;
+  margin: 30px;
   text-align: center;
 }
 
@@ -362,4 +365,26 @@ a.nav-link.nav-dropdown-link:active, a.nav-link.nav-dropdown-link:focus {
     padding-left: 5px;
     padding-right: 5px;
   }
+}
+
+#uniswap-form .form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#uniswap-form .form-group label {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+#swap-amount {
+  width: 200px;
+  height: 40px;
+}
+
+#swap-btn {
+  border-radius: 50px;
+  margin-top: 30px;
+  background: rgb(244, 24, 47);
 }
