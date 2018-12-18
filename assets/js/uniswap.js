@@ -9,11 +9,10 @@ const ULTtokenAddress = '0x09617f6fd6cf8a71278ec86e23bbab29c04353a7' // ULT Toke
 const ULTexchangeAddress = '0x28d9353611C5A0d5a026A648c05E5d6523e41CBf'
 
 let exchangeContract = new web3.eth.Contract(exchangeABI, ULTexchangeAddress)
+const ALLOWED_SLIPPAGE = 0.025;
 
 async function swap (type, inputValue) {
-    var gasPriceEst = await web3.eth.getGasPrice();
-    exchangeContract.options.gasPrice = gasPriceEst
-    
+
     const blockNumber = await web3.eth.getBlockNumber()
     const block = await web3.eth.getBlock(blockNumber)
     const deadline =  block.timestamp + 300;
@@ -29,18 +28,16 @@ async function swap (type, inputValue) {
                 else alert('Swap from ETH to ULT is submitted...')
             })
     } else if (type === 'ULT_TO_ETH') {
-        let outputValue = 2
-        let tokenSold = new BigNumber(inputValue).toFixed(0)
-        let minEth = new BigNumber(outputValue).toFixed(0)
-        // exchangeContract.methods.tokenToEthSwapInput(tokenSold, minEth, deadline)
-        new web3.eth.Contract(exchangeABI, ULTexchangeAddress).methods.tokenToEthSwapInput(tokenSold, minEth, deadline)
+        const tokenSold = new BigNumber(inputValue).multipliedBy(10 ** 18).toFixed(0)
+        const minEth = new BigNumber(2).toFixed(0)
+        
+        exchangeContract.methods.tokenToEthSwapInput(tokenSold, minEth, deadline)
             .send({ from: accounts[0] }, (err, data) => {
               if (err) console.log(err) 
               else alert('Swap from ULT to ETH is submitted...')
             })
     }
 }
-
 swapForm.addEventListener('submit', (event) => {
     event.preventDefault()
     let from = document.getElementById('convert-from').value
