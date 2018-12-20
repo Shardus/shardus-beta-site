@@ -1,4 +1,4 @@
-/* global BigNumber, Web3, factoryABI, exchangeABI, tokenABI, tokenDB, $ */
+/* global BigNumber, Web3, factoryABI, exchangeABI, tokenABI, ERC20_ABI, tokenDB, $ */
 
 let web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
 let exchangeAddresses = tokenDB.exchangeAddresses
@@ -6,6 +6,7 @@ let tokenSymbols = Object.keys(exchangeAddresses)
 let tokenAddressess = {}
 let exchangeContracts = {}
 let tokenContracts = {}
+const ALLOWED_SLIPPAGE = 0.025;
 
 for (let i = 0; i < tokenSymbols.length; i += 1) {
     exchangeContracts[tokenSymbols[i]] = new web3.eth.Contract(exchangeABI, exchangeAddresses[tokenSymbols[i]])
@@ -15,20 +16,8 @@ tokenSymbols.forEach(async token => {
     const contract = exchangeContracts[token]
     tokenAddressess[token] = await contract.methods.tokenAddress().call()
     tokenContracts[token] = new web3.eth.Contract(tokenABI, tokenAddressess[token])
+    
 })
-
-function init() {
-    drawUI()
-    $('#convert-btn').on('click', function(e) {
-        let data = {}
-        $('#uniswap-form')
-            .serializeArray()
-            .forEach(input => {
-                data[input.name]= input.value
-            })
-        swap(data)
-    })
-}
 
 function getSwapType(inputCurrency, outputCurrency) {
     if (inputCurrency !== 'ETH' && outputCurrency === 'ETH') return 'TOKEN_TO_ETH'
@@ -39,14 +28,12 @@ function getSwapType(inputCurrency, outputCurrency) {
 async function swap (data) {
     let { inputValue, inputCurrency, outputValue, outputCurrency } = data
     let type = getSwapType(inputCurrency, outputCurrency)
-    const ALLOWED_SLIPPAGE = 0.025;
     
     const blockNumber = await web3.eth.getBlockNumber()
     const block = await web3.eth.getBlock(blockNumber)
     const deadline =  block.timestamp + 300;
     const accounts = await web3.eth.getAccounts()
     let exchangeContract
-    
     if (type === 'ETH_TO_TOKEN') {
         exchangeContract = exchangeContracts[outputCurrency]
         const max_tokens = new BigNumber(100000).toFixed(0)
@@ -55,7 +42,11 @@ async function swap (data) {
         exchangeContract.methods.ethToTokenSwapInput(max_tokens,deadline)
             .send({from: accounts[0], value: amount}, (err, data) => {
                 if (err) console.log(err)
-                else alert('Swap from ETH to ULT is submitted...')
+                else {
+                    $('.alert').hide()
+                    $('#swapModal').modal('hide')
+                    $('#submittedModal').modal('show')
+                }
             })
     } else if (type === 'TOKEN_TO_ETH') {
         exchangeContract = exchangeContracts[inputCurrency]
@@ -65,7 +56,11 @@ async function swap (data) {
         exchangeContract.methods.tokenToEthSwapInput(tokenSold, minEth, deadline)
             .send({ from: accounts[0] }, (err, data) => {
               if (err) console.log(err) 
-              else alert('Swap from ULT to ETH is submitted...')
+              else {
+                $('.alert').hide()
+                $('#swapModal').modal('hide')
+                $('#submittedModal').modal('show')
+              }
             })
     } else if (type === 'TOKEN_TO_TOKEN') {
         exchangeContract = exchangeContracts[inputCurrency]
@@ -82,9 +77,35 @@ async function swap (data) {
             outputTokenAddress
         ).send({ from: accounts[0] }, (err, data) => {
               if (err) console.log(err) 
-              else alert('Swap from Token to Token is submitted...')
+              else {
+                $('.alert').hide()
+                $('#swapModal').modal('hide')
+                $('#submittedModal').modal('show')
+              }
             })
     }
+}
+
+async function unlockToken(currency, account) {
+    $('.alert').hide()
+    $('.alert-wait').show()
+    const inputValue = $('#inputValue').val()
+    const tokenAddress = tokenAddressess[currency]
+    const exchangeAddress = exchangeAddresses[currency]
+    const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress)
+    const amount = new BigNumber(10 ** 18).multipliedBy(10 ** 8).toFixed(0)
+    await contract.methods.approve(exchangeAddress, amount).send({ from: account })
+    
+    // check the allowance
+    const check = setInterval(async () => {
+        let allowance = await getAllowance(currency, inputValue)
+        if (allowance > inputValue) {
+            clearInterval(check)
+            hideUnlockButton()
+            $('.alert').hide()
+            $('.alert-approved').show()
+        }
+    }, 1000)
 }
 
 async function getOutputValue(inputCurrency, outputCurrency, inputValue) {
@@ -146,8 +167,12 @@ function drawUI() {
     }
     $('#uniswap-form .dropdown-menu').html(selectHTML)
     setTimeout(() => {
-        calculateULTPrice().then(price => $('#ULT-price').html(`<strong>${price.toFixed(6)}</strong> $`))
+        calculateULTPrice().then(price => {
+            $('#ULT-price').html(`<strong>${price.toFixed(6)}</strong> $`)
+            $('#exchange-info span').text(`${price.toFixed(6)} $`)
+        })
     }, 3000)
+
 }
 
 async function calculateULTPrice() {
@@ -155,52 +180,127 @@ async function calculateULTPrice() {
     return price
 }
 
-// start listening events on widget
-init ()
+async function renderUnlockButton(inputCurrency, inputValue) {
+    if (inputCurrency === 'ETH' || !inputValue || inputValue == 0) hideUnlockButton()
+    const allowance = await getAllowance(inputCurrency, inputValue)
+    if (inputValue > allowance) displayUnlockButton()
+    else hideUnlockButton()
+}
 
-$('#swapModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var action = button.data('action') // Extract info from data-* attributes
-  var modal = $(this)
-  modal.find('.modal-title').text(`${action} ULT`)
-  modal.find('.modal-body input').val('')
-  if (action === 'buy') {
-      $('.pay-group button').attr('disabled', false)
-      $('.receive-group button').attr('disabled', true)
-      $('#inputCurrency').val('ETH')
-      $('#outputCurrency').val('ULT')
-      $('#input-select-btn').text('ETH')
-      $('#output-select-btn').text('ULT')
-      $('#convert-btn').text('BUY')
-  } else if (action === 'sell') {
-      $('.pay-group button').attr('disabled', true)
-      $('.receive-group button').attr('disabled', false)
-      $('#inputCurrency').val('ULT')
-      $('#outputCurrency').val('ETH')
-      $('#input-select-btn').text('ULT')
-      $('#output-select-btn').text('ETH')
-      $('#convert-btn').text('SELL')
-  }
-})
+async function getAllowance(inputCurrency, inputValue) {
+    let exchangeAddress = exchangeAddresses[inputCurrency]
+    let tokenAddress = tokenAddressess[inputCurrency]
+    const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress)
+    const accounts = await web3.eth.getAccounts()
+    let allowance = await contract.methods.allowance(
+        accounts[0],
+        exchangeAddress
+    ).call()
+    return allowance
+}
 
-$('.pay-group .dropdown-menu .dropdown-item').on('click', function(e) {
-    e.preventDefault()
-    const selectedToken = this.getAttribute('token-name')
-    $('#inputCurrency').val(selectedToken)
-    $('#input-select-btn').text(selectedToken)
-})
+function displayUnlockButton() {
+    $('#unlock-token-btn').css('display', 'inline-block')
+    $('#convert-btn').attr('disabled', true)
+    $('.alert').hide()
+    $('.alert-unlock').show()
+}
 
-$('.receive-group .dropdown-menu .dropdown-item').on('click', function(e) {
-    e.preventDefault()
-    const selectedToken = this.getAttribute('token-name')
-    $('#outputCurrency').val(selectedToken)
-    $('#output-select-btn').text(selectedToken)
-})
+function hideUnlockButton() {
+    $('#unlock-token-btn').css('display', 'none')
+    $('#convert-btn').attr('disabled', false)
+    $('.alert').hide()
+}
 
-$('#inputValue').on('change', async function(e) {
-    const inputValue = $(this).val()
+async function updateInputOutput(lastChangedField) {
     const inputCurrency = $('#inputCurrency').val()
     const outputCurrency = $('#outputCurrency').val()
-    const outputValue = await getOutputValue(inputCurrency, outputCurrency, inputValue)
-    $('#outputValue').val(outputValue)
-})
+    let inputValue
+    let outputValue
+    if (lastChangedField === 'input') {
+        inputValue = $('#inputValue').val()
+        outputValue = await getOutputValue(inputCurrency, outputCurrency, inputValue)
+        $('#outputValue').val(outputValue)
+    } else if (lastChangedField === 'output') {
+        outputValue = $('#outputValue').val()
+        inputValue = await getOutputValue(outputCurrency, inputCurrency, outputValue)
+        $('#inputValue').val(inputValue)
+    }
+    renderUnlockButton(inputCurrency, inputValue)
+}
+
+function init() {
+    drawUI()
+    $('#convert-btn').on('click', function(e) {
+        let data = {}
+        $('#uniswap-form')
+            .serializeArray()
+            .forEach(input => {
+                data[input.name]= input.value
+            })
+        $('.alert').hide()
+        $('.alert-check').show()
+        swap(data)
+    })
+    
+    $('#unlock-token-btn').on('click', async e => {
+        e.preventDefault()
+        const accounts = await web3.eth.getAccounts()
+        const inputCurrency = $('#inputCurrency').val()
+        await unlockToken(inputCurrency, accounts[0])
+    })
+    
+    $('#swapModal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      var action = button.data('action') // Extract info from data-* attributes
+      var modal = $(this)
+      if (action === 'buy') modal.find('.modal-title').text('Buy ULT using ETH or ERC20 TOkens')
+      else if (action === 'sell') modal.find('.modal-title').text('Sell ULT to receive ETH or ERC20 TOkens')
+      modal.find('.modal-body input').val('')
+      if (action === 'buy') {
+          $('.pay-group button').attr('disabled', false)
+          $('.receive-group button').attr('disabled', true)
+          $('#inputCurrency').val('ETH')
+          $('#outputCurrency').val('ULT')
+          $('#input-select-btn').text('ETH')
+          $('#output-select-btn').text('ULT')
+          $('#convert-btn').text('BUY')
+      } else if (action === 'sell') {
+          $('.pay-group button').attr('disabled', true)
+          $('.receive-group button').attr('disabled', false)
+          $('#inputCurrency').val('ULT')
+          $('#outputCurrency').val('ETH')
+          $('#input-select-btn').text('ULT')
+          $('#output-select-btn').text('ETH')
+          $('#convert-btn').text('SELL')
+      }
+      $('.alert').hide()
+    })
+    
+    $('.pay-group .dropdown-menu .dropdown-item').on('click', async function(e) {
+        e.preventDefault()
+        const selectedToken = this.getAttribute('token-name')
+        $('#inputCurrency').val(selectedToken)
+        $('#input-select-btn').text(selectedToken)
+        updateInputOutput('input')
+    })
+    
+    $('.receive-group .dropdown-menu .dropdown-item').on('click', function(e) {
+        e.preventDefault()
+        const selectedToken = this.getAttribute('token-name')
+        $('#outputCurrency').val(selectedToken)
+        $('#output-select-btn').text(selectedToken)
+        updateInputOutput('input')
+    })
+    
+    $('#inputValue').on('change', () => {
+        updateInputOutput('input')
+    })
+    
+    $('#outputValue').on('change', () => {
+        updateInputOutput('output')
+    })
+}
+
+// start listening events on widget
+init ()
