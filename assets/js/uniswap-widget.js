@@ -36,7 +36,7 @@ let UniswapConvertWidget = async function(config) {
             tokenAddressess[token] = await contract.methods.tokenAddress().call()
             tokenContracts[token] = new web3.eth.Contract(tokenABI, tokenAddressess[token])
         })
-        drawUI()
+        drawUI(config)
         $('#convert-btn').on('click', function(e) {
             let data = {}
             $('#uniswap-form')
@@ -51,17 +51,38 @@ let UniswapConvertWidget = async function(config) {
         
         $('#unlock-token-btn').on('click', async e => {
             e.preventDefault()
+            $('#swapModal').modal('hide')
+            $('#approvalModal').modal('show')
+            const inputCurrency = $('#inputCurrency').val()
+            const inputValue = $('#inputValue').val()
+            const minimumAmount = parseFloat(inputValue) + parseFloat(inputValue * 0.1)
+            $('#approvalModal label span').text(`${minimumAmount} ${inputCurrency}`)
+            $('#approvalModal label span').attr('minimumAmount', minimumAmount)
+            $('#approvalModal input[type=text]').val(minimumAmount)
+        })
+        
+        $('#approve-btn').on('click', async e => {
+            e.preventDefault()
             const accounts = await web3.eth.getAccounts()
             const inputCurrency = $('#inputCurrency').val()
-            await unlockToken(inputCurrency, accounts[0])
+            const approvedAmount = $('#approvalModal input[type=text]').val()
+            const minimumAmount = $('#approvalModal label span').attr('minimumAmount')
+            if(approvedAmount < minimumAmount) {
+                alert('Approve amount cannot be less than minimum amount')
+                $('#approvalModal input[type=text]').val(minimumAmount)
+                return
+            }
+            $('#approvalModal').modal('hide')
+            $('#swapModal').modal('show')
+            await unlockToken(inputCurrency, accounts[0], approvedAmount)
         })
         
         $('#swapModal').on('show.bs.modal', function (event) {
           var button = $(event.relatedTarget) // Button that triggered the modal
-          var action = button.data('action') // Extract info from data-* attributes
+          var action = button.data('action') || 'buy' // Extract info from data-* attributes
           var modal = $(this)
-          if (action === 'buy') modal.find('.modal-title').text('Buy ULT using ETH or ERC20 TOkens')
-          else if (action === 'sell') modal.find('.modal-title').text('Sell ULT to receive ETH or ERC20 TOkens')
+          if (action === 'buy') modal.find('.modal-title').text('Buy ULT using ETH or ERC20 Tokens')
+          else if (action === 'sell') modal.find('.modal-title').text('Sell ULT to receive ETH or ERC20 Tokens')
           modal.find('.modal-body input').val('')
           if (action === 'buy') {
               $('.pay-group button').attr('disabled', false)
@@ -176,11 +197,11 @@ let UniswapConvertWidget = async function(config) {
         }
     }
     
-    async function unlockToken(currency, account) {
+    async function unlockToken(currency, account, approvedAmount) {
         $('.alert').hide()
         $('.alert-wait').show()
         const inputValue = $('#inputValue').val()
-        const amount = new BigNumber(10 ** 18).multipliedBy(10 ** 8).toFixed(0)
+        const amount = new BigNumber(approvedAmount).multipliedBy(10 ** 18).toFixed(0)
         
         const tokenAddress = tokenAddressess[currency]
         const exchangeAddress = exchangeAddresses[currency]
@@ -194,6 +215,7 @@ let UniswapConvertWidget = async function(config) {
                 clearInterval(check)
                 hideUnlockButton()
                 $('.alert').hide()
+                $('.alert-wait').hide()
                 $('.alert-approved').show()
             }
         }, 1000)
@@ -277,6 +299,7 @@ let UniswapConvertWidget = async function(config) {
                 return inputAmount
             }
         } else if (swapType === 'TOKEN_TO_TOKEN') {
+            console.log(inputCurrency, outputCurrency, inputType)
             let tokenContractA = tokenContracts[inputCurrency]
             let exchangeAddressA = exchangeAddresses[inputCurrency]
             let tokenContractB = tokenContracts[outputCurrency]
@@ -342,22 +365,28 @@ let UniswapConvertWidget = async function(config) {
         }
     }
     
-    function drawUI() {
+    function drawUI(config) {
         
         const baseWidgetTemplate = `
         <h3>Convert Tokens on Uniswap Exchange</h3>
         <div class="row">
             <div class="col-md-4">
-                <img class="shardus-logo" src="assets/img/logo.svg" alt="shardus-logo">
-                <span>ULT</span>
+                <img class="shardus-logo" src="${config.logoUrl}" alt="shardus-logo">
+                <span>${config.mainToken.symbol}</span>
             </div>
             <div class="col-md-4">
-                <p>Current Price</p>
-                <p id="ULT-price">--</p>
+                <h5>Current Price</h5>
+                <p id="ULT-price-dai">--</p>
+                <p id="ULT-price-eth">--</p>
             </div>
             <div class="col-md-4">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#swapModal" data-action="buy" id="buy-btn">Buy</button>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#swapModal" data-action="sell" id="sell-btn">Sell</button>
+                <div>
+                    <p>Powered By <a href="https://uniswap.exchange">Uniswap</a></p>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#swapModal" data-action="buy" id="buy-btn">Buy</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#swapModal" data-action="sell" id="sell-btn">Sell</button>
+                </div>
                 <div class="modal fade" id="swapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -370,9 +399,10 @@ let UniswapConvertWidget = async function(config) {
                       <div class="modal-body">
                           <div class="alert alert-warning alert-dismissible alert-unlock hide" role="alert">
                               Please unlock your token to allow Metamask wallet to spend
+                              <a class="btn" id="unlock-token-btn">Unlock</a>
                           </div>
                           <div class="alert alert-primary alert-dismissible alert-wait hide" role="alert">
-                              Waiting util your approval is confirmed on ethereum blockchain
+                              Please submit your approval transaction and wait a few seconds. We will check if your submitted approval transaction is confirmed on <strong>Ethereum Network</strong>
                           </div>
                           <div class="alert alert-success alert-dismissible alert-approved hide" role="alert">
                               Your approval to spend token is successfully confirmed !
@@ -390,7 +420,6 @@ let UniswapConvertWidget = async function(config) {
                               <input type="text" class="form-control" aria-label="inputValue" id="inputValue" name="inputValue">
                               <input type="hidden" class="form-control" aria-label="inputCurrency" id="inputCurrency" name="inputCurrency">
                               <div class="input-group-append">
-                                <a class="btn" id="unlock-token-btn">Unlock</a>
                                 <button type="button" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="input-select-btn">ETH</button>
                                 <div class="dropdown-menu">
                                   <a class="dropdown-item" token-name="ULT" href="#">ULT</a>
@@ -416,18 +445,21 @@ let UniswapConvertWidget = async function(config) {
                         </form>
                       </div>
                       <div class="modal-footer">
-                        <div class="row" id="exchange-info">
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4" id="exchange-info">
                                 <p><strong>Rate</strong></p>
-                                <p>1 ULT = <span>0.0002</span></p>
+                                <p>1 ULT = <span class="dai-rate">0.0002</span></p>
+                                <p>1 ULT = <span class="eth-rate">0.0002</span></p>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <p><strong>Slippage</strong></p>
                                 <p>2.5 %</p>
                             </div>
+                            <div class="col-md-5">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" id="convert-btn" class="btn btn-primary">Convert</button>
+                            </div>
                         </div>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" id="convert-btn" class="btn btn-primary">Convert</button>
                       </div>
                     </div>
                   </div>
@@ -453,7 +485,34 @@ let UniswapConvertWidget = async function(config) {
                   </div>
                 </div>
             </div>
-        </div>`
+        </div>
+        <!-- Approval Modal -->
+        <div class="modal fade" id="approvalModal" tabindex="-1" role="dialog" aria-labelledby="approvalModal" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Unlock Your Token</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                 <p>Please unlock your token to allow Metamask Wallet to spend. Minimum allowance is <strong>input amount to convert + extra 10% </strong>. If you intend to convert more tokens in the future, please fill in higer allowance so that you can avoid extra gas fees caused by future approval transactions</p>
+                 <form>
+                  <div class="form-group">
+                    <label for="approved-amount" class="col-form-label">Approved Amount : <span>0.123 DAI</span> (mininum)</label>
+                    <input type="text" class="form-control" id="approved-amount">
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="approve-btn">Approve</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        `
         
         $('#uniswap-convert-section').html(baseWidgetTemplate)
         
@@ -463,15 +522,19 @@ let UniswapConvertWidget = async function(config) {
         }
         $('#uniswap-form .dropdown-menu').html(selectHTML)
         setTimeout(() => {
-            calculateULTPrice().then(price => {
-                $('#ULT-price').html(`<strong>${price.toFixed(6)}</strong> $`)
-                $('#exchange-info span').text(`${price.toFixed(6)} $`)
+            calculateULTPrice('DAI').then(price => {
+                $('#ULT-price-dai').html(`<strong>${price.toFixed(6)}</strong> $`)
+                $('#exchange-info .dai-rate').text(`${price.toFixed(6)} $`)
+            })
+            calculateULTPrice('ETH').then(price => {
+                $('#ULT-price-eth').html(`<strong>${price.toFixed(6)}</strong> ETH`)
+                $('#exchange-info .eth-rate').text(`${price.toFixed(6)} ETH`)
             })
         }, 3000)
     }
     
-    async function calculateULTPrice() {
-        let price = await calcuateInputOutput(mainToken.symbol, 'DAI', 'EXACT_INPUT', 1)
+    async function calculateULTPrice(outptCurrency) {
+        let price = await calcuateInputOutput(mainToken.symbol, outptCurrency, 'EXACT_INPUT', 1)
         return price
     }
     
@@ -495,10 +558,10 @@ let UniswapConvertWidget = async function(config) {
     }
     
     function displayUnlockButton() {
-        $('#unlock-token-btn').css('display', 'inline-block')
         $('#convert-btn').attr('disabled', true)
         $('.alert').hide()
         $('.alert-unlock').show()
+        $('#unlock-token-btn').css('display', 'inline-block')
     }
     
     function hideUnlockButton() {
@@ -514,35 +577,24 @@ let UniswapConvertWidget = async function(config) {
         let outputValue
         if (lastChangedField === 'input') {
             inputValue = $('#inputValue').val()
-            if (!$.isNumeric(inputValue)) {
+            if (!$.isNumeric(inputValue) || inputValue <= 0) {
                 $('#outputValue').val('')
                 return
             }
             outputValue = await calcuateInputOutput(inputCurrency, outputCurrency, 'EXACT_INPUT', inputValue)
-            $('#outputValue').val(outputValue.toFixed(7))
+            if(outputValue > 0) $('#outputValue').val(outputValue.toFixed(7))
+            else $('#outputValue').val('')
         } else if (lastChangedField === 'output') {
             outputValue = $('#outputValue').val()
-            if (!$.isNumeric(outputValue)) {
+            if (!$.isNumeric(outputValue) || outputValue <= 0) {
                 $('#inputValue').val('')
                 return
             }
             inputValue = await calcuateInputOutput(inputCurrency, outputCurrency, 'EXACT_OUTPUT', outputValue)
-            $('#inputValue').val(inputValue.toFixed(7))
+            if(inputValue > 0) $('#inputValue').val(inputValue.toFixed(7))
+            else $('#inputValue').val('')
         }
         renderUnlockButton(inputCurrency, inputValue)
     }
 }
 
-let config = {
-    mainToken: {
-        symbol: 'ULT',
-        exchangeAddress: '0x28d9353611C5A0d5a026A648c05E5d6523e41CBf'
-    },
-    tokenListUrl: 'https://shardus-uniswap-thantsintoe.c9users.io/assets/js/tokenDB.json',
-    colorScheme: {
-        mainColor: 'red',
-        secondaryColor: 'black'
-    },
-    logoUrl: 'https://shardus-uniswap-thantsintoe.c9users.io/assets/img/logo.svg'
-}
-UniswapConvertWidget(config)

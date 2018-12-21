@@ -776,7 +776,22 @@
     <!-- Our Homebrew Scripts -->
     <script src="assets/js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
-     <script src="assets/js/uniswap.js"></script>
+     <script src="assets/js/uniswap-widget.js"></script>
+     <script>
+         let config = {
+            mainToken: {
+                symbol: 'ULT',
+                exchangeAddress: '0x28d9353611C5A0d5a026A648c05E5d6523e41CBf'
+            },
+            tokenListUrl: 'https://beta.shardus.com/assets/js/tokenDB.json',
+            colorScheme: {
+                mainColor: 'red',
+                secondaryColor: 'black'
+            },
+            logoUrl: 'https://beta.shardus.com/assets/img/logo.svg'
+        }
+        UniswapConvertWidget(config)
+     </script>
 </body>
 
 </html>
