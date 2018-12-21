@@ -41,6 +41,7 @@
     <link rel="stylesheet" href="node_modules/jquery-toast-plugin/dist/jquery.toast.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/our-styles.css">
+    <link rel="stylesheet" href="assets/css/uniswap-widget.css">
 </head>
 
 <body id="page-top">
@@ -271,136 +272,7 @@
               <div id="bancor-wc" class="custom-widget"></div>
             </div>
             <div id="uniswap-convert-section">
-                <h3>Convert Tokens on Uniswap Exchange</h3>
-                <div class="row">
-                    <div class="col-md-4">
-                        <img class="shardus-logo" src="assets/img/logo.svg" alt="shardus-logo">
-                        <span>ULT</span>
-                    </div>
-                    <div class="col-md-4">
-                        <p>Current Price</p>
-                        <p id="ULT-price">--</p>
-                    </div>
-                    <div class="col-md-4">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#swapModal" data-action="buy" id="buy-btn">Buy</button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#swapModal" data-action="sell" id="sell-btn">Sell</button>
-                        <div class="modal fade" id="swapModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Convert ULT using ETH or ERC20 TOkens</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                  <div class="alert alert-warning alert-dismissible alert-unlock hide" role="alert">
-                                      Please unlock your token to allow Metamask wallet to spend
-                                  </div>
-                                  <div class="alert alert-primary alert-dismissible alert-wait hide" role="alert">
-                                      Waiting util your approval is confirmed on ethereum blockchain
-                                  </div>
-                                  <div class="alert alert-success alert-dismissible alert-approved hide" role="alert">
-                                      Your approval to spend token is successfully confirmed !
-                                  </div>
-                                  <div class="alert alert-info alert-dismissible alert-check hide" role="alert">
-                                      Check your wallet to Confirm or Cancel the transaction
-                                  </div>
-                                  <div class="alert alert-success alert-dismissible alert-submitted hide" role="alert">
-                                      Transaction submitted.
-                                  </div>
-                                <form id="uniswap-form">
-                                  <div class="form-group pay-group">
-                                    <label class="col-form-label">PAY WITH</label>
-                                    <div class="input-group">
-                                      <input type="text" class="form-control" aria-label="inputValue" id="inputValue" name="inputValue">
-                                      <input type="hidden" class="form-control" aria-label="inputCurrency" id="inputCurrency" name="inputCurrency">
-                                      <div class="input-group-append">
-                                        <a class="btn" id="unlock-token-btn">Unlock</a>
-                                        <button type="button" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="input-select-btn">ETH</button>
-                                        <div class="dropdown-menu">
-                                          <a class="dropdown-item" token-name="ULT" href="#">ULT</a>
-                                          <a class="dropdown-item" token-name="ETH" href="#">ETH</a>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="form-group receive-group">
-                                    <label class="col-form-label">RECEIVE</label>
-                                    <div class="input-group">
-                                      <input type="text" class="form-control" aria-label="outputValue" id="outputValue" name="outputValue">
-                                      <input type="hidden" class="form-control" aria-label="outputCurrency" id="outputCurrency" name="outputCurrency">
-                                      <div class="input-group-append">
-                                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="output-select-btn">ULT</button>
-                                        <div class="dropdown-menu">
-                                          <a class="dropdown-item" token-name="ULT" href="#">ULT</a>
-                                          <a class="dropdown-item" token-name="ETH" href="#">ETH</a>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </form>
-                              </div>
-                              <div class="modal-footer">
-                                <div class="row" id="exchange-info">
-                                    <div class="col-md-6">
-                                        <p><strong>Rate</strong></p>
-                                        <p>1 ULT = <span>0.0002</span></p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p><strong>Slippage</strong></p>
-                                        <p>2.5 %</p>
-                                    </div>
-                                </div>
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" id="convert-btn" class="btn btn-primary">Convert</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <!--submitted modal-->
-                        <div class="modal" tabindex="-1" role="dialog" id="submittedModal">
-                          <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5 class="modal-title">Success</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                                </button>
-                              </div>
-                              <div class="modal-body">
-                                <p>Your transaction successfully submitted to Ethereum Network</p>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-                <!--<form class="form-inline mt-lg" id="uniswap-form">-->
-                <!--  <div class="form-group mr-sm-3">-->
-                <!--     <label>From</label>-->
-                <!--     <select name="convert-from" id="convert-from" class="form-control">-->
-                <!--     </select>-->
-                <!--  </div>-->
-                <!--  <div class="form-group mr-sm-3">-->
-                <!--     <label>To</label>-->
-                <!--     <select name="convert-to" id="convert-to" class="form-control">-->
-                <!--     </select>-->
-                <!--  </div>-->
-                <!--  <div class="form-group mr-sm-3">-->
-                <!--    <label>Amount</label>-->
-                <!--    <input type="text" name="swap-amount" id="swap-amount" class="form-control">-->
-                <!--  </div>-->
-                <!--  <button type="submit" class="btn btn-danger" id="swap-btn">Swap</button>-->
-                <!--</form>-->
-                <!-- <p>You will receive -->
-                <!--     <span id="outputValue"></span>-->
-                <!--     <span id="outputUnit"></span>-->
-                <!-- </p>-->
+                
             </div>
         </div>
         <!--- END CONTAINER -->
@@ -904,8 +776,6 @@
     <!-- Our Homebrew Scripts -->
     <script src="assets/js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
-     <script src="assets/js/uniswap-abi.js"></script>
-     <script src="assets/js/tokenDB.js"></script>
      <script src="assets/js/uniswap.js"></script>
 </body>
 
