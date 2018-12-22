@@ -34,6 +34,13 @@
     margin: 5px;
 }
 
+#max-btn {
+  background: #6c757d;
+  color: #fff;
+  border: none;
+  border-right: 4px solid #e3e3e3;
+}
+
 
 #uniswap-form .form-group {
   display: flex;
@@ -51,7 +58,7 @@
 }
 
 #swapModal .modal-footer {
-    padding: 10px 0px 0px 0px;
+    padding: 20px 0px 20px 0px;
 }
 
 #swapModal .modal-footer .row {
@@ -61,12 +68,16 @@
 
 #swapModal .modal-footer .row .col-md-5 {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-evenly;
 }
 
+#swapModal .modal-footer p {
+    margin-bottom: 0px
+}
+
 #swapModal .modal-footer button {
-    width: 75px;
+    min-width: 75px;
     height: 40px
 }
 
@@ -126,6 +137,7 @@
 
 #exchange-info {
   width: 100%;
+  flex-direction: column;
 }
 
 .modal-header {
