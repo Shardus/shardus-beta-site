@@ -211,9 +211,12 @@ let UniswapConvertWidget = async function(config) {
                 .send({from: accounts[0], value: amount}, (err, data) => {
                     if (err) console.log(err)
                     else {
+                        console.log(`TxId is ${JSON.stringify(data)}`)
+                        const txUrl = `https://etherscan.io/tx/${data}`
                         $('.alert').hide()
                         $('#swapModal').modal('hide')
                         $('#submittedModal').modal('show')
+                        $('#txUrl').attr('href', txUrl)
                     }
                 })
         } else if (type === 'TOKEN_TO_ETH') {
@@ -229,9 +232,12 @@ let UniswapConvertWidget = async function(config) {
                       $('.alert').hide()
                   }
                   else {
+                    console.log(`TxId is ${JSON.stringify(data)}`)
+                    const txUrl = `https://etherscan.io/tx/${data}`
                     $('.alert').hide()
                     $('#swapModal').modal('hide')
                     $('#submittedModal').modal('show')
+                    $('#txUrl').attr('href', txUrl)
                   }
                 })
         } else if (type === 'TOKEN_TO_TOKEN') {
@@ -248,11 +254,14 @@ let UniswapConvertWidget = async function(config) {
                 deadline,
                 outputTokenAddress
             ).send({ from: accounts[0] }, (err, data) => {
-                  if (err) console.log(err) 
+                  if (err) console.log(err)
                   else {
+                    console.log(`TxId is ${JSON.stringify(data)}`)
+                    const txUrl = `https://etherscan.io/tx/${data}`
                     $('.alert').hide()
                     $('#swapModal').modal('hide')
                     $('#submittedModal').modal('show')
+                    $('#txUrl').attr('href', txUrl)
                   }
                 })
         }
@@ -571,13 +580,14 @@ let UniswapConvertWidget = async function(config) {
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title">Success</h5>
+                        <h5 class="modal-title">Transaction Submitted</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
                       <div class="modal-body">
-                        <p>Your transaction successfully submitted to Ethereum Network</p>
+                        <p>Your transaction is successfully submitted to Ethereum Network. Click link below to view your transaction on etherscan.io</p>
+                        <a id="txUrl" target="_blank" rel="noopener noreferrer" href="https://etherscan.io/tx/0x7b51443ce4803bd4b8fa1f5b9f20af4b64f4ff1856d2e63b851a15bec1b9cb3e">View tx on etherscan.io</a>
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
