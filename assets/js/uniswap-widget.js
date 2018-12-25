@@ -707,7 +707,10 @@ let UniswapConvertWidget = async function(config) {
                 return
             }
             inputValue = await calcuateInputOutput(inputCurrency, outputCurrency, 'EXACT_OUTPUT', outputValue)
-            if(inputValue > 0) $('#inputValue').val(inputValue.toFixed(7))
+            if(inputValue > 0) {
+                $('#inputValue').val(inputValue.toFixed(7))
+                updateExchangeRate(inputCurrency, outputCurrency, inputValue, outputValue)
+            }
             else $('#inputValue').val('')
         }
         
@@ -717,27 +720,50 @@ let UniswapConvertWidget = async function(config) {
     async function updateExchangeRate (inputCurrency, outputCurrency, inputValue, outputValue) {
         if (inputCurrency === mainToken.symbol) {
             if (outputCurrency !== 'ETH') {
-                calculateULTPrice(mainToken.symbol, outputCurrency, 1)
-                .then(unitPrice => {
-                    let exchangeRate = outputValue / inputValue
-                    let slippage = 100 * (unitPrice - exchangeRate) / unitPrice
-                    if (slippage < 0) slippage = 0
-                    $('#exchange-info .dai-rate').html(`1 ULT = ${exchangeRate.toFixed(6)} ${outputCurrency}`)
-                    $('#slippage').html(`${slippage.toFixed(2)} %`)
-                })
+                let tokenExchangeAddressA = exchangeAddresses[inputCurrency]
+                let tokenContractA = tokenContracts[inputCurrency]
+                let ethReserveA = await web3.eth.getBalance(tokenExchangeAddressA)
+                let tokenRserveA = await tokenContractA.methods.balanceOf(tokenExchangeAddressA).call()
+                ethReserveA = new BigNumber(ethReserveA)
+                tokenRserveA = new BigNumber(tokenRserveA)
+                let absPriceA = tokenRserveA.dividedBy(ethReserveA)
+
+                let tokenExchangeAddressB = exchangeAddresses[outputCurrency]
+                let tokenContractB = tokenContracts[outputCurrency]
+                let ethReserveB = await web3.eth.getBalance(tokenExchangeAddressB)
+                let tokenReserveB = await tokenContractB.methods.balanceOf(tokenExchangeAddressB).call()
+                ethReserveB = new BigNumber(ethReserveB)
+                tokenReserveB = new BigNumber(tokenReserveB)
+                let absPriceB = tokenReserveB.dividedBy(ethReserveB)
+
+                let absPrice = absPriceB.dividedBy(absPriceA)
+                absPrice = absPrice.toFixed(8)
+                
+                let exchangeRate = outputValue / inputValue
+                let slippage = 100 * Math.abs(absPrice - exchangeRate) / absPrice
+                
+                $('#exchange-info .dai-rate').html(`1 ULT = ${exchangeRate.toFixed(6)} ${outputCurrency}`)
+                $('#slippage').html(`${slippage.toFixed(2)} %`)
+
                 calculateULTPrice(mainToken.symbol, 'ETH', inputValue).then(output => {
                     let exchangeRate = output / inputValue
                     $('#exchange-info .eth-rate').html(`1 ULT = ${exchangeRate.toFixed(6)} ETH`)
                 })
             } else if (outputCurrency === 'ETH') {
-                calculateULTPrice(mainToken.symbol, outputCurrency, 1)
-                .then(unitPrice => {
-                    let exchangeRate = outputValue / inputValue
-                    let slippage = 100 * (unitPrice - exchangeRate) / unitPrice
-                    if (slippage < 0) slippage = 0
-                    $('#exchange-info .eth-rate').html(`1 ULT = ${exchangeRate.toFixed(6)} ${outputCurrency}`)
-                    $('#slippage').html(`${slippage.toFixed(2)} %`)
-                })
+                let tokenExchangeAddress = exchangeAddresses[inputCurrency]
+                let tokenContract = tokenContracts[inputCurrency]
+                let ethReserve = await web3.eth.getBalance(tokenExchangeAddress)
+                let tokenRserve = await tokenContract.methods.balanceOf(tokenExchangeAddress).call()
+                ethReserve = new BigNumber(ethReserve)
+                tokenRserve = new BigNumber(tokenRserve)
+                
+                let absPrice = ethReserve.dividedBy(tokenRserve)
+                absPrice = absPrice.toFixed(8)
+                let exchangeRate = outputValue / inputValue
+                let slippage = 100 * Math.abs(absPrice - exchangeRate) / absPrice
+                $('#exchange-info .eth-rate').html(`1 ULT = ${exchangeRate.toFixed(6)} ${outputCurrency}`)
+                $('#slippage').html(`${slippage.toFixed(2)} %`)
+                
                 calculateULTPrice(mainToken.symbol, 'DAI', inputValue).then(output => {
                     let exchangeRate = output / inputValue
                     $('#exchange-info .dai-rate').html(`1 ULT = ${exchangeRate.toFixed(6)} DAI`)
@@ -745,27 +771,50 @@ let UniswapConvertWidget = async function(config) {
             }
         } else if (outputCurrency === mainToken.symbol) {
             if(inputCurrency !== 'ETH') {
-                calculateULTPrice(inputCurrency, mainToken.symbol, 1)
-                .then(unitPrice => {
-                    let exchangeRate = outputValue / inputValue
-                    let slippage = 100 * (unitPrice - exchangeRate) / unitPrice
-                    if (slippage < 0) slippage = 0
-                    $('#exchange-info .dai-rate').html(`1 ${inputCurrency} = ${exchangeRate.toFixed(6)} ${mainToken.symbol}`)
-                    $('#slippage').html(`${slippage.toFixed(2)} %`)
-                })
+                let tokenExchangeAddressA = exchangeAddresses[inputCurrency]
+                let tokenContractA = tokenContracts[inputCurrency]
+                let ethReserveA = await web3.eth.getBalance(tokenExchangeAddressA)
+                let tokenRserveA = await tokenContractA.methods.balanceOf(tokenExchangeAddressA).call()
+                ethReserveA = new BigNumber(ethReserveA)
+                tokenRserveA = new BigNumber(tokenRserveA)
+                let absPriceA = tokenRserveA.dividedBy(ethReserveA)
+
+                let tokenExchangeAddressB = exchangeAddresses[outputCurrency]
+                let tokenContractB = tokenContracts[outputCurrency]
+                let ethReserveB = await web3.eth.getBalance(tokenExchangeAddressB)
+                let tokenReserveB = await tokenContractB.methods.balanceOf(tokenExchangeAddressB).call()
+                ethReserveB = new BigNumber(ethReserveB)
+                tokenReserveB = new BigNumber(tokenReserveB)
+                let absPriceB = tokenReserveB.dividedBy(ethReserveB)
+
+                let absPrice = absPriceB.dividedBy(absPriceA)
+                absPrice = absPrice.toFixed(8)
+                
+                let exchangeRate = outputValue / inputValue
+                let slippage = 100 * Math.abs(absPrice - exchangeRate) / absPrice
+                
+                $('#exchange-info .dai-rate').html(`1 ${inputCurrency} = ${exchangeRate.toFixed(6)} ${mainToken.symbol}`)
+                $('#slippage').html(`${slippage.toFixed(2)} %`)
+
                 calculateULTPrice('ETH', mainToken.symbol, inputValue).then(ethOutput => {
                     let exchangeRate = ethOutput / inputValue
                     $('#exchange-info .eth-rate').html(`1 ETH = ${exchangeRate.toFixed(6)} ${mainToken.symbol}`)
                 })
             } else if(inputCurrency === 'ETH') {
-                calculateULTPrice(inputCurrency, mainToken.symbol, 1)
-                .then(unitPrice => {
-                    let exchangeRate = outputValue / inputValue
-                    let slippage = 100 * (unitPrice - exchangeRate) / unitPrice
-                    if (slippage < 0) slippage = 0
-                    $('#exchange-info .eth-rate').html(`1 ${inputCurrency} = ${exchangeRate.toFixed(6)} ${mainToken.symbol}`)
-                    $('#slippage').html(`${slippage.toFixed(2)} %`)
-                })
+                let tokenExchangeAddress = exchangeAddresses[outputCurrency]
+                let tokenContract = tokenContracts[outputCurrency]
+                let ethReserve = await web3.eth.getBalance(tokenExchangeAddress)
+                let tokenRserve = await tokenContract.methods.balanceOf(tokenExchangeAddress).call()
+                ethReserve = new BigNumber(ethReserve)
+                tokenRserve = new BigNumber(tokenRserve)
+                let absPrice = tokenRserve.dividedBy(ethReserve)
+                absPrice = absPrice.toFixed(8)
+                
+                let exchangeRate = outputValue / inputValue
+                let slippage = 100 * Math.abs(absPrice - exchangeRate) / absPrice
+                $('#exchange-info .eth-rate').html(`1 ${inputCurrency} = ${exchangeRate.toFixed(6)} ${mainToken.symbol}`)
+                $('#slippage').html(`${slippage.toFixed(2)} %`)
+
                 calculateULTPrice('DAI', mainToken.symbol, inputValue).then(daiOutput => {
                     let exchangeRate = daiOutput / inputValue
                     $('#exchange-info .dai-rate').html(`1 DAI = ${exchangeRate.toFixed(6)} ${mainToken.symbol}`)
