@@ -6,7 +6,8 @@ let UniswapConvertWidget = async function(config) {
     const factoryABI = [{"name": "NewExchange", "inputs": [{"type": "address", "name": "token", "indexed": true}, {"type": "address", "name": "exchange", "indexed": true}], "anonymous": false, "type": "event"}, {"name": "initializeFactory", "outputs": [], "inputs": [{"type": "address", "name": "template"}], "constant": false, "payable": false, "type": "function", "gas": 35725}, {"name": "createExchange", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "token"}], "constant": false, "payable": false, "type": "function", "gas": 187911}, {"name": "getExchange", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "token"}], "constant": true, "payable": false, "type": "function", "gas": 715}, {"name": "getToken", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "address", "name": "exchange"}], "constant": true, "payable": false, "type": "function", "gas": 745}, {"name": "getTokenWithId", "outputs": [{"type": "address", "name": "out"}], "inputs": [{"type": "uint256", "name": "token_id"}], "constant": true, "payable": false, "type": "function", "gas": 736}, {"name": "exchangeTemplate", "outputs": [{"type": "address", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 633}, {"name": "tokenCount", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 663}];
     const tokenABI = [{"name": "Transfer", "inputs": [{"type": "address", "name": "_from", "indexed": true}, {"type": "address", "name": "_to", "indexed": true}, {"type": "uint256", "name": "_value", "indexed": false}], "anonymous": false, "type": "event"}, {"name": "Approval", "inputs": [{"type": "address", "name": "_owner", "indexed": true}, {"type": "address", "name": "_spender", "indexed": true}, {"type": "uint256", "name": "_value", "indexed": false}], "anonymous": false, "type": "event"}, {"name": "__init__", "outputs": [], "inputs": [{"type": "bytes32", "name": "_name"}, {"type": "bytes32", "name": "_symbol"}, {"type": "uint256", "name": "_decimals"}, {"type": "uint256", "name": "_supply"}], "constant": false, "payable": false, "type": "constructor"}, {"name": "deposit", "outputs": [], "inputs": [], "constant": false, "payable": true, "type": "function", "gas": 74279}, {"name": "withdraw", "outputs": [{"type": "bool", "name": "out"}], "inputs": [{"type": "uint256", "name": "_value"}], "constant": false, "payable": false, "type": "function", "gas": 108706}, {"name": "totalSupply", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 543}, {"name": "balanceOf", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "address", "name": "_owner"}], "constant": true, "payable": false, "type": "function", "gas": 745}, {"name": "transfer", "outputs": [{"type": "bool", "name": "out"}], "inputs": [{"type": "address", "name": "_to"}, {"type": "uint256", "name": "_value"}], "constant": false, "payable": false, "type": "function", "gas": 74698}, {"name": "transferFrom", "outputs": [{"type": "bool", "name": "out"}], "inputs": [{"type": "address", "name": "_from"}, {"type": "address", "name": "_to"}, {"type": "uint256", "name": "_value"}], "constant": false, "payable": false, "type": "function", "gas": 110600}, {"name": "approve", "outputs": [{"type": "bool", "name": "out"}], "inputs": [{"type": "address", "name": "_spender"}, {"type": "uint256", "name": "_value"}], "constant": false, "payable": false, "type": "function", "gas": 37888}, {"name": "allowance", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "address", "name": "_owner"}, {"type": "address", "name": "_spender"}], "constant": true, "payable": false, "type": "function", "gas": 1025}, {"name": "name", "outputs": [{"type": "bytes32", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 723}, {"name": "symbol", "outputs": [{"type": "bytes32", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 753}, {"name": "decimals", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 783}];
     const exchangeABI = [{"name": "TokenPurchase", "inputs": [{"type": "address", "name": "buyer", "indexed": true}, {"type": "uint256", "name": "eth_sold", "indexed": true}, {"type": "uint256", "name": "tokens_bought", "indexed": true}], "anonymous": false, "type": "event"}, {"name": "EthPurchase", "inputs": [{"type": "address", "name": "buyer", "indexed": true}, {"type": "uint256", "name": "tokens_sold", "indexed": true}, {"type": "uint256", "name": "eth_bought", "indexed": true}], "anonymous": false, "type": "event"}, {"name": "AddLiquidity", "inputs": [{"type": "address", "name": "provider", "indexed": true}, {"type": "uint256", "name": "eth_amount", "indexed": true}, {"type": "uint256", "name": "token_amount", "indexed": true}], "anonymous": false, "type": "event"}, {"name": "RemoveLiquidity", "inputs": [{"type": "address", "name": "provider", "indexed": true}, {"type": "uint256", "name": "eth_amount", "indexed": true}, {"type": "uint256", "name": "token_amount", "indexed": true}], "anonymous": false, "type": "event"}, {"name": "Transfer", "inputs": [{"type": "address", "name": "_from", "indexed": true}, {"type": "address", "name": "_to", "indexed": true}, {"type": "uint256", "name": "_value", "indexed": false}], "anonymous": false, "type": "event"}, {"name": "Approval", "inputs": [{"type": "address", "name": "_owner", "indexed": true}, {"type": "address", "name": "_spender", "indexed": true}, {"type": "uint256", "name": "_value", "indexed": false}], "anonymous": false, "type": "event"}, {"name": "setup", "outputs": [], "inputs": [{"type": "address", "name": "token_addr"}], "constant": false, "payable": false, "type": "function", "gas": 175875}, {"name": "addLiquidity", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "min_liquidity"}, {"type": "uint256", "name": "max_tokens"}, {"type": "uint256", "name": "deadline"}], "constant": false, "payable": true, "type": "function", "gas": 82605}, {"name": "removeLiquidity", "outputs": [{"type": "uint256", "name": "out"}, {"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "amount"}, {"type": "uint256", "name": "min_eth"}, {"type": "uint256", "name": "min_tokens"}, {"type": "uint256", "name": "deadline"}], "constant": false, "payable": false, "type": "function", "gas": 116814}, {"name": "__default__", "outputs": [], "inputs": [], "constant": false, "payable": true, "type": "function"}, {"name": "ethToTokenSwapInput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "min_tokens"}, {"type": "uint256", "name": "deadline"}], "constant": false, "payable": true, "type": "function", "gas": 12757}, {"name": "ethToTokenTransferInput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "min_tokens"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "recipient"}], "constant": false, "payable": true, "type": "function", "gas": 12965}, {"name": "ethToTokenSwapOutput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_bought"}, {"type": "uint256", "name": "deadline"}], "constant": false, "payable": true, "type": "function", "gas": 50463}, {"name": "ethToTokenTransferOutput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_bought"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "recipient"}], "constant": false, "payable": true, "type": "function", "gas": 50671}, {"name": "tokenToEthSwapInput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_sold"}, {"type": "uint256", "name": "min_eth"}, {"type": "uint256", "name": "deadline"}], "constant": false, "payable": false, "type": "function", "gas": 47503}, {"name": "tokenToEthTransferInput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_sold"}, {"type": "uint256", "name": "min_eth"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "recipient"}], "constant": false, "payable": false, "type": "function", "gas": 47712}, {"name": "tokenToEthSwapOutput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "eth_bought"}, {"type": "uint256", "name": "max_tokens"}, {"type": "uint256", "name": "deadline"}], "constant": false, "payable": false, "type": "function", "gas": 50175}, {"name": "tokenToEthTransferOutput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "eth_bought"}, {"type": "uint256", "name": "max_tokens"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "recipient"}], "constant": false, "payable": false, "type": "function", "gas": 50384}, {"name": "tokenToTokenSwapInput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_sold"}, {"type": "uint256", "name": "min_tokens_bought"}, {"type": "uint256", "name": "min_eth_bought"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "token_addr"}], "constant": false, "payable": false, "type": "function", "gas": 51007}, {"name": "tokenToTokenTransferInput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_sold"}, {"type": "uint256", "name": "min_tokens_bought"}, {"type": "uint256", "name": "min_eth_bought"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "recipient"}, {"type": "address", "name": "token_addr"}], "constant": false, "payable": false, "type": "function", "gas": 51098}, {"name": "tokenToTokenSwapOutput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_bought"}, {"type": "uint256", "name": "max_tokens_sold"}, {"type": "uint256", "name": "max_eth_sold"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "token_addr"}], "constant": false, "payable": false, "type": "function", "gas": 54928}, {"name": "tokenToTokenTransferOutput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_bought"}, {"type": "uint256", "name": "max_tokens_sold"}, {"type": "uint256", "name": "max_eth_sold"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "recipient"}, {"type": "address", "name": "token_addr"}], "constant": false, "payable": false, "type": "function", "gas": 55019}, {"name": "tokenToExchangeSwapInput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_sold"}, {"type": "uint256", "name": "min_tokens_bought"}, {"type": "uint256", "name": "min_eth_bought"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "exchange_addr"}], "constant": false, "payable": false, "type": "function", "gas": 49342}, {"name": "tokenToExchangeTransferInput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_sold"}, {"type": "uint256", "name": "min_tokens_bought"}, {"type": "uint256", "name": "min_eth_bought"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "recipient"}, {"type": "address", "name": "exchange_addr"}], "constant": false, "payable": false, "type": "function", "gas": 49532}, {"name": "tokenToExchangeSwapOutput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_bought"}, {"type": "uint256", "name": "max_tokens_sold"}, {"type": "uint256", "name": "max_eth_sold"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "exchange_addr"}], "constant": false, "payable": false, "type": "function", "gas": 53233}, {"name": "tokenToExchangeTransferOutput", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_bought"}, {"type": "uint256", "name": "max_tokens_sold"}, {"type": "uint256", "name": "max_eth_sold"}, {"type": "uint256", "name": "deadline"}, {"type": "address", "name": "recipient"}, {"type": "address", "name": "exchange_addr"}], "constant": false, "payable": false, "type": "function", "gas": 53423}, {"name": "getEthToTokenInputPrice", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "eth_sold"}], "constant": true, "payable": false, "type": "function", "gas": 5542}, {"name": "getEthToTokenOutputPrice", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_bought"}], "constant": true, "payable": false, "type": "function", "gas": 6872}, {"name": "getTokenToEthInputPrice", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "tokens_sold"}], "constant": true, "payable": false, "type": "function", "gas": 5637}, {"name": "getTokenToEthOutputPrice", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "uint256", "name": "eth_bought"}], "constant": true, "payable": false, "type": "function", "gas": 6897}, {"name": "tokenAddress", "outputs": [{"type": "address", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 1413}, {"name": "factoryAddress", "outputs": [{"type": "address", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 1443}, {"name": "balanceOf", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "address", "name": "_owner"}], "constant": true, "payable": false, "type": "function", "gas": 1645}, {"name": "transfer", "outputs": [{"type": "bool", "name": "out"}], "inputs": [{"type": "address", "name": "_to"}, {"type": "uint256", "name": "_value"}], "constant": false, "payable": false, "type": "function", "gas": 75034}, {"name": "transferFrom", "outputs": [{"type": "bool", "name": "out"}], "inputs": [{"type": "address", "name": "_from"}, {"type": "address", "name": "_to"}, {"type": "uint256", "name": "_value"}], "constant": false, "payable": false, "type": "function", "gas": 110907}, {"name": "approve", "outputs": [{"type": "bool", "name": "out"}], "inputs": [{"type": "address", "name": "_spender"}, {"type": "uint256", "name": "_value"}], "constant": false, "payable": false, "type": "function", "gas": 38769}, {"name": "allowance", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [{"type": "address", "name": "_owner"}, {"type": "address", "name": "_spender"}], "constant": true, "payable": false, "type": "function", "gas": 1925}, {"name": "name", "outputs": [{"type": "bytes32", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 1623}, {"name": "symbol", "outputs": [{"type": "bytes32", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 1653}, {"name": "decimals", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 1683}, {"name": "totalSupply", "outputs": [{"type": "uint256", "name": "out"}], "inputs": [], "constant": true, "payable": false, "type": "function", "gas": 1713}]
-    let web3 = new Web3(Web3.givenProvider || 'ws://some.local-or-remote.node:8546');
+    // let web3 = new Web3(Web3.givenProvider || 'wss://some.local-or-remote.node:8546');
+    let web3 = new Web3(Web3.givenProvider || 'wss://mainnet.infura.io/ws');
     
     let exchangeAddresses
     let tokenSymbols
@@ -84,12 +85,58 @@ let UniswapConvertWidget = async function(config) {
             $('#approvalModal input[type=text]').val(minimumAmount)
         })
         
+        async function estimateGasPrice (from, value, inputCurrency, outputCurrency) {
+            console.log(inputCurrency, outputCurrency)
+            let gas
+            let amount = new BigNumber(value * Math.pow(10, 18))
+
+            if (inputCurrency === 'ETH' && outputCurrency === 'ULT' || inputCurrency === 'ULT' && outputCurrency === 'ETH') {
+                console.log(`ETH to ULT or ULT to ETH`)
+                let exchange = exchangeAddresses['ULT']
+                gas = await web3.eth.estimateGas({
+                    from: from,
+                    to: exchange,
+                    value: amount
+                })
+            } else {
+                console.log(`TOKEN to ULT or ULT to TOKEN`)
+                let exchange1 = exchangeAddresses[inputCurrency]
+                let exchange2 = exchangeAddresses[outputCurrency]
+                let gas1 = await web3.eth.estimateGas({
+                    from: from,
+                    to: exchange1,
+                    value: amount
+                })
+                let gas2 = await web3.eth.estimateGas({
+                    from: from,
+                    to: exchange2,
+                    value: amount
+                })
+                gas = gas1 + gas2
+            }
+            // console.log(`Original Gas is ${gas}`)
+            gas = gas * 1.6
+            let gas_price = 8.0 // in GWEI
+            let gas_limit = gas * 1.0
+            let cost = ((gas * gas_price) * 1000000000) / Math.pow(10, 18)
+            // console.log(`Estimated Gas is ${gas}`)
+            // console.log(`Tx Cost is ${cost} ETH`)
+            // console.log(`Gas limit is ${gas_limit}`)
+            return cost
+        }
+        
         $('#max-btn').on('click', async e => {
             e.preventDefault()
             const accounts = await web3.eth.getAccounts()
             let inputCurrency = $('#inputCurrency').val()
+            let outputCurrency = $('#outputCurrency').val()
             let balance = await getAccountBalance(inputCurrency, accounts[0])
-            let inputValue = $('#inputValue').val(balance)
+            
+            // estimate gas and substrat from input amount
+            let estimatedGas = await estimateGasPrice(accounts[0], balance, inputCurrency, outputCurrency)
+            let availableAmount = balance - estimatedGas // in ETH unit
+            
+            let inputValue = $('#inputValue').val(availableAmount)
             updateInputOutput('input')
         })
         
@@ -270,7 +317,7 @@ let UniswapConvertWidget = async function(config) {
     async function unlockToken(currency, account, approvedAmount) {
         $('.alert').hide()
         $('.alert-wait').show()
-        const inputValue = $('#inputValue').val()
+        const inputCurrency = currency
         const amount = new BigNumber(approvedAmount).multipliedBy(10 ** 18).toFixed(0)
         
         const tokenAddress = tokenAddressess[currency]
@@ -287,13 +334,16 @@ let UniswapConvertWidget = async function(config) {
         
         // check the allowance
         const check = setInterval(async () => {
-            let allowance = await getAllowance(currency, inputValue)
-            if (allowance > inputValue) {
+            const allowance = await getAllowance(inputCurrency, approvedAmount)
+            const input = approvedAmount * Math.pow(10, 18)
+            if (allowance >= input) {
                 clearInterval(check)
                 hideUnlockButton()
                 $('.alert').hide()
                 $('.alert-wait').hide()
                 $('.alert-approved').show()
+                $('#swapModal').modal('hide')
+                alert(`Your approval to spend ${approvedAmount} ${inputCurrency} is successfully confirmed ! You can submit transaction now.`)
             }
         }, 1000)
     }
@@ -308,8 +358,41 @@ let UniswapConvertWidget = async function(config) {
         return new BigNumber(balance).dividedBy(10 ** 18).toFixed(18)
     }
     
+   function getULTToUSDPrice () {
+        return new Promise((resolve, reject) => {
+                $.get(`${config.chartServerUrl}/histohour?limit=1`, function(data) {
+                    if (data.transactions && data.transactions.length > 0) {
+                        resolve(data.transactions[0].close)
+                    }
+                })
+        })
+    }
+    
+    function getULTToETHPrice () {
+        return new Promise((resolve, reject) => {
+                $.get(`${config.chartServerUrl}/histohour?limit=1`, function(data) {
+                    if (data.transactions && data.transactions.length > 0) {
+                        let { amount_eth, amount_ult } = data.transactions[0]
+                        let price = amount_eth / amount_ult
+                        resolve(price)
+                    }
+                })
+        })
+    }
+    
+    async function getChartPrices(type) {
+        if (type === 'ULT-USD') {
+            let unitPrice = await getULTToUSDPrice()
+            // console.log(`ULT - USD price is ${unitPrice}`)
+            return unitPrice
+        } if (type === 'ULT-ETH') {
+            let unitPrice = await getULTToETHPrice()
+            // console.log(`ULT - ETH price is ${unitPrice}`)
+            return unitPrice
+        }
+    }
+    
     async function calcuateInputOutput(inputCurrency, outputCurrency, inputType, value) {
-        
         const swapType = getSwapType(inputCurrency, outputCurrency)
     
         if (swapType === 'ETH_TO_TOKEN') {
@@ -634,14 +717,10 @@ let UniswapConvertWidget = async function(config) {
         }
         $('#uniswap-form .dropdown-menu').html(selectHTML)
         setTimeout(() => {
-            calculateULTPrice(mainToken.symbol, 'DAI', 1).then(price => {
-                $('#ULT-price-dai').html(`<strong>${price.toFixed(6)}</strong> $`)
-                $('#exchange-info .dai-rate').html(`1 ULT = ${price.toFixed(6)} DAI`)
-            })
-            calculateULTPrice(mainToken.symbol, 'ETH', 1).then(price => {
-                $('#ULT-price-eth').html(`<strong>${price.toFixed(6)}</strong> ETH`)
-                $('#exchange-info .eth-rate').html(`1 ULT = ${price.toFixed(6)} ETH`)
-            })
+            updateULTPrice(mainToken.symbol)
+            setInterval(() => {
+                updateULTPrice(mainToken.symbol)
+            }, 60000)
         }, 3000)
     }
     
@@ -650,23 +729,52 @@ let UniswapConvertWidget = async function(config) {
         return price
     }
     
+    async function updateULTPrice(inputCurrency) {
+        calculateULTPrice(inputCurrency, 'DAI', 1).then(price => {
+            // $('#ULT-price-dai').html(`<strong>${price.toFixed(6)}</strong> $`)
+            let inputValue = $('#inputValue').val()
+            let outputValue = $('#outputValue').val()
+            if(inputValue === '' && outputValue==='') $('#exchange-info .dai-rate').html(`1 ULT = ${price.toFixed(6)} DAI`)
+            console.log('ULT-DAI price is updated')
+        })
+        calculateULTPrice(inputCurrency, 'ETH', 1).then(price => {
+            // $('#ULT-price-eth').html(`<strong>${price.toFixed(6)}</strong> ETH`)
+            let inputValue = $('#inputValue').val()
+            let outputValue = $('#outputValue').val()
+            if(inputValue === '' && outputValue === '') $('#exchange-info .eth-rate').html(`1 ULT = ${price.toFixed(6)} ETH`)
+            console.log('ULT-ETH price is updated')
+        })
+        let price_ult_usd = await getChartPrices('ULT-USD')
+        let price_ult_eth = await getChartPrices('ULT-ETH')
+        $('#ULT-price-dai').html(`<strong>${price_ult_usd.toFixed(6)}</strong> $`)
+        $('#ULT-price-eth').html(`<strong>${price_ult_eth.toFixed(6)}</strong> ETH`)
+    }
+    
     async function renderUnlockButton(inputCurrency, inputValue) {
         if (inputCurrency === 'ETH' || !inputValue || inputValue == 0) hideUnlockButton()
-        const allowance = await getAllowance(inputCurrency, inputValue)
-        if (inputValue > allowance) displayUnlockButton()
-        else hideUnlockButton()
+        else {
+            const allowance = await getAllowance(inputCurrency, inputValue)
+            const input = inputValue * Math.pow(10, 18)
+            if (input > allowance) displayUnlockButton()
+            else hideUnlockButton()
+        }
     }
     
     async function getAllowance(inputCurrency, inputValue) {
-        let exchangeAddress = exchangeAddresses[inputCurrency]
-        let tokenAddress = tokenAddressess[inputCurrency]
-        const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress)
-        const accounts = await web3.eth.getAccounts()
-        let allowance = await contract.methods.allowance(
-            accounts[0],
-            exchangeAddress
-        ).call()
-        return allowance
+        try {
+            let exchangeAddress = exchangeAddresses[inputCurrency]
+            let tokenAddress = tokenAddressess[inputCurrency]
+            const contract = new web3.eth.Contract(ERC20_ABI, tokenAddress)
+            const accounts = await web3.eth.getAccounts()
+            let allowance = await contract.methods.allowance(
+                accounts[0],
+                exchangeAddress
+            ).call()
+            return allowance
+        } catch (e) {
+            console.log(e)
+            console.log('Cannot get token allowance value !')
+        }
     }
     
     function displayUnlockButton() {
@@ -759,6 +867,8 @@ let UniswapConvertWidget = async function(config) {
                 
                 let absPrice = ethReserve.dividedBy(tokenRserve)
                 absPrice = absPrice.toFixed(8)
+                
+                // let absPrice = await getULTToETHPrice()
                 let exchangeRate = outputValue / inputValue
                 let slippage = 100 * Math.abs(absPrice - exchangeRate) / absPrice
                 $('#exchange-info .eth-rate').html(`1 ULT = ${exchangeRate.toFixed(6)} ${outputCurrency}`)
@@ -810,6 +920,8 @@ let UniswapConvertWidget = async function(config) {
                 let absPrice = tokenRserve.dividedBy(ethReserve)
                 absPrice = absPrice.toFixed(8)
                 
+                // let absPrice = await getULTToETHPrice()
+                // absPrice = 1 / absPrice
                 let exchangeRate = outputValue / inputValue
                 let slippage = 100 * Math.abs(absPrice - exchangeRate) / absPrice
                 $('#exchange-info .eth-rate').html(`1 ${inputCurrency} = ${exchangeRate.toFixed(6)} ${mainToken.symbol}`)
