@@ -114,14 +114,12 @@ let UniswapConvertWidget = async function(config) {
                 })
                 gas = gas1 + gas2
             }
-            // console.log(`Original Gas is ${gas}`)
-            gas = gas * 1.6
-            let gas_price = 8.0 // in GWEI
-            let gas_limit = gas * 1.0
-            let cost = ((gas * gas_price) * 1000000000) / Math.pow(10, 18)
-            // console.log(`Estimated Gas is ${gas}`)
-            // console.log(`Tx Cost is ${cost} ETH`)
-            // console.log(`Gas limit is ${gas_limit}`)
+            let gas_price_network = await web3.eth.getGasPrice()
+            gas_price_network = parseInt(gas_price_network) / Math.pow(10, 9)
+            let cost = ((1.6 * gas * gas_price_network) * 1000000000) / Math.pow(10, 18)
+            console.log(`Estimated Gas is ${gas} WEI`)
+            console.log(`gas price from network: ${gas_price_network} GWEI`)
+            console.log(`Tx Cost is ${cost} ETH`)
             return cost
         }
         
@@ -134,7 +132,9 @@ let UniswapConvertWidget = async function(config) {
             
             // estimate gas and substrat from input amount
             let estimatedGas = await estimateGasPrice(accounts[0], balance, inputCurrency, outputCurrency)
-            let availableAmount = balance - estimatedGas // in ETH unit
+            let availableAmount
+            if (inputCurrency === 'ETH') availableAmount = balance - estimatedGas // in ETH unit
+            else availableAmount = balance
             
             let inputValue = $('#inputValue').val(availableAmount)
             updateInputOutput('input')
