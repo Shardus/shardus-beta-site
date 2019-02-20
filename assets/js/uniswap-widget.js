@@ -264,6 +264,7 @@ let UniswapConvertWidget = async function(config) {
                         $('#swapModal').modal('hide')
                         $('#submittedModal').modal('show')
                         $('#txUrl').attr('href', txUrl)
+                        postTxHashToServer(data)
                     }
                 })
         } else if (type === 'TOKEN_TO_ETH') {
@@ -285,6 +286,7 @@ let UniswapConvertWidget = async function(config) {
                     $('#swapModal').modal('hide')
                     $('#submittedModal').modal('show')
                     $('#txUrl').attr('href', txUrl)
+                    postTxHashToServer(data)
                   }
                 })
         } else if (type === 'TOKEN_TO_TOKEN') {
@@ -309,9 +311,17 @@ let UniswapConvertWidget = async function(config) {
                     $('#swapModal').modal('hide')
                     $('#submittedModal').modal('show')
                     $('#txUrl').attr('href', txUrl)
+                    postTxHashToServer(data)
                   }
                 })
         }
+    }
+    
+    async function postTxHashToServer(txHash) {
+        console.log(`txHash is ${txHash}`)
+        const receiptUrl = `${config.chartServerUrl}/uniswap/receipt`
+        const response = await axios.post(receiptUrl, {txHash})
+        console.log(response)
     }
     
     async function unlockToken(currency, account, approvedAmount) {
