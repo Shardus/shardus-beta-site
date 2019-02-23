@@ -386,8 +386,10 @@ let UniswapConvertWidget = async function(config) {
                         for (let i = data.transactions.length - 1; i >= 0; i--) {
                             if (data.transactions[i].amount_eth > 0) {
                                 lastTx = data.transactions[i]
+                                break
                             }
                         }
+                        console.log(lastTx)
                         let { amount_eth, amount_ult } = lastTx
                         let price = amount_eth / amount_ult
                         resolve(price)
