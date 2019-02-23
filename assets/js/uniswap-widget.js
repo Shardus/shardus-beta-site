@@ -558,20 +558,26 @@ let UniswapConvertWidget = async function(config) {
         const baseWidgetTemplate = `
         <h3 id="widget-title"></h3>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <img class="shardus-logo" src="${config.logoUrl}" alt="shardus-logo">
                 <span>${config.mainToken.symbol}</span>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <h5>Current Price</h5>
                 <p id="ULT-price-dai">--</p>
                 <p id="ULT-price-eth">--</p>
-                <p id="ult-price-chart-link"><a href="${config.chartUrl}" target="_blank">(See ULT Price Chart)</a></p>
             </div>
             
-            <div class="col-md-4">
+            <div class="col-md-3">
+                <h5>Price Chart</h5>
+                <div class="chart-column">
+                <a href="${config.chartUrl}" target="_blank"><i class="fas fa-chart-line fa-lg"></i></a>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
                 <div>
-                    <p>Powered By <a href="https://uniswap.exchange" target="_blank">Uniswap</a></p>
+                    <p id="uniswap-link">Powered By <a href="https://uniswap.exchange" target="_blank">Uniswap</a></p>
                 </div>
                 <div>
                     <button type="button" class="btn btn-primary" data-target="#swapModal" data-toggle="modal" data-action="buy" id="buy-btn">Buy</button>
