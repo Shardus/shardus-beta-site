@@ -13,6 +13,7 @@
 
 #uniswap-convert-section > .row {
     width: 80%;
+    height: 80px;
     display: flex;
     margin: 20px auto;
 }
@@ -168,10 +169,13 @@
   text-align: center;
 }
 .chart-column {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 90%;
+    display: flex;
+    /* align-items: center; */
+    padding-top: 25px;
+    justify-content: center;
+    height: 100px;
+    /* text-align: center; */
+    /* height: 100%; */
 }
 #ULT-price-dai, #ULT-price-eth {
   text-align: center;

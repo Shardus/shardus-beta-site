@@ -756,24 +756,31 @@ let UniswapConvertWidget = async function(config) {
     }
     
     async function updateULTPrice(inputCurrency) {
-        calculateULTPrice(inputCurrency, 'DAI', 1).then(price => {
-            // $('#ULT-price-dai').html(`<strong>${price.toFixed(6)}</strong> $`)
-            let inputValue = $('#inputValue').val()
-            let outputValue = $('#outputValue').val()
-            if(inputValue === '' && outputValue==='') $('#exchange-info .dai-rate').html(`1 ULT = ${price.toFixed(6)} DAI`)
-            console.log('ULT-DAI price is updated')
-        })
-        calculateULTPrice(inputCurrency, 'ETH', 1).then(price => {
-            // $('#ULT-price-eth').html(`<strong>${price.toFixed(6)}</strong> ETH`)
-            let inputValue = $('#inputValue').val()
-            let outputValue = $('#outputValue').val()
-            if(inputValue === '' && outputValue === '') $('#exchange-info .eth-rate').html(`1 ULT = ${price.toFixed(6)} ETH`)
-            console.log('ULT-ETH price is updated')
-        })
+        // calculateULTPrice(inputCurrency, 'DAI', 1).then(price => {
+        //     let inputValue = $('#inputValue').val()
+        //     let outputValue = $('#outputValue').val()
+        //     if(inputValue === '' && outputValue==='') $('#exchange-info .dai-rate').html(`1 ULT = ${price.toFixed(6)} DAI`)
+        //     console.log('ULT-DAI price is updated')
+        // })
+        // calculateULTPrice(inputCurrency, 'ETH', 1).then(price => {
+        //     let inputValue = $('#inputValue').val()
+        //     let outputValue = $('#outputValue').val()
+        //     if(inputValue === '' && outputValue === '') $('#exchange-info .eth-rate').html(`1 ULT = ${price.toFixed(6)} ETH`)
+        //     console.log('ULT-ETH price is updated')
+        // })
+        
         let price_ult_usd = await getChartPrices('ULT-USD')
         let price_ult_eth = await getChartPrices('ULT-ETH')
         $('#ULT-price-dai').html(`<strong>${price_ult_usd.toFixed(6)}</strong> $`)
         $('#ULT-price-eth').html(`<strong>${price_ult_eth.toFixed(6)}</strong> ETH`)
+        
+        let inputValue = $('#inputValue').val()
+        let outputValue = $('#outputValue').val()
+        if(inputValue === '' && outputValue==='') {
+            $('#exchange-info .dai-rate').html(`1 ULT = ${price_ult_usd.toFixed(6)} DAI`)
+            $('#exchange-info .eth-rate').html(`1 ULT = ${price_ult_eth.toFixed(6)} ETH`)
+            console.log('ULT-DAI price is updated')
+        }
     }
     
     async function renderUnlockButton(inputCurrency, inputValue) {
