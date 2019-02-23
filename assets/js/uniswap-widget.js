@@ -380,9 +380,15 @@ let UniswapConvertWidget = async function(config) {
     
     function getULTToETHPrice () {
         return new Promise((resolve, reject) => {
-                $.get(`${config.chartServerUrl}/histohour?limit=1`, function(data) {
+                $.get(`${config.chartServerUrl}/histohour`, function(data) {
                     if (data.transactions && data.transactions.length > 0) {
-                        let { amount_eth, amount_ult } = data.transactions[0]
+                        let lastTx
+                        for (let i = data.transactions.length - 1; i >= 0; i--) {
+                            if (data.transactions[i].amount_eth > 0) {
+                                lastTx = data.transactions[i]
+                            }
+                        }
+                        let { amount_eth, amount_ult } = lastTx
                         let price = amount_eth / amount_ult
                         resolve(price)
                     }
@@ -558,10 +564,12 @@ let UniswapConvertWidget = async function(config) {
                 <h5>Current Price</h5>
                 <p id="ULT-price-dai">--</p>
                 <p id="ULT-price-eth">--</p>
+                <p id="ult-price-chart-link"><a href="${config.chartUrl}" target="_blank">(See ULT Price Chart)</a></p>
             </div>
+            
             <div class="col-md-4">
                 <div>
-                    <p>Powered By <a href="https://uniswap.exchange">Uniswap</a></p>
+                    <p>Powered By <a href="https://uniswap.exchange" target="_blank">Uniswap</a></p>
                 </div>
                 <div>
                     <button type="button" class="btn btn-primary" data-target="#swapModal" data-toggle="modal" data-action="buy" id="buy-btn">Buy</button>
