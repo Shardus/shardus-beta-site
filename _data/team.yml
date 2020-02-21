@@ -9,11 +9,11 @@
     title: Developer
     photo: aaron.jpg
     linkedin: https://www.linkedin.com/in/aaronsullivan/
-  -
-    name: Andrew Foster
+  - 
+    name: Artyom Tchebotaryov
     title: Developer
-    photo: AndrewFoster2.jpg
-    linkedin: https://www.linkedin.com/in/andrew-foster-b95402a/
+    photo: artyom.jpg
+    linkedin: https://www.linkedin.com/in/artyomch/
   -
     name: Carlos Alberto de Araujo Barreto
     title: Developer
@@ -29,7 +29,7 @@
     name: Derrick Farris
     title: Developer
     photo: derrick.jpg
-    linkedin: https://www.linkedin.com/in/derrickfarris/
+    linkedin: https://www.linkedin.com/in/derrick-farris/
   - 
     name: Dmitry Yakov
     title: Developer
@@ -47,21 +47,26 @@
     photo: gani.jpg
     linkedin: https://linkedin.com/in/gani-padela-069876109/
   - 
-    name: Kyle Shifflett
-    title: Developer
-    photo: kyle.jpg
-    linkedin: https://www.linkedin.com/in/kshifflett/
-  - 
     name: Maher Ben Taleb Ali
     title: Developer
     photo: maher.jpg
     linkedin: https://www.linkedin.com/in/maher-ben/
+  - 
+    name: Mauro Hernandez
+    title: Developer
+    photo: mauro.jpg
+    linkedin: https://www.linkedin.com/in/mauro-hernandez-26a627163/
   - 
     name: Omar Syed
     title: Developer
     photo: omar.jpg
     linkedin: https://www.linkedin.com/in/omarsyed1/
 -
+  - 
+    name: Ryan Hee
+    title: Developer
+    photo: ryan.jpg
+    linkedin: https://www.linkedin.com/in/ryan-hee-3a3095158/
   -
     name: Ryuhei Matsuda
     title: Developer
@@ -72,32 +77,33 @@
     title: Developer
     photo: salman_new.jpg
     linkedin: https://linkedin.com/in/salman-ahmad-4a4573113/
-  - 
-    name: Sameer Siddiqui
-    title: Developer
-    photo: sameer.jpg
-    linkedin: https://www.linkedin.com/in/sameer-siddiqui-a182491/
   -
     name: Thant Sin Toe
     title: Developer
     photo: thant.jpg
     linkedin: https://www.linkedin.com/in/thant-sin-toe-71713265/
 -
+  -
+    name: Viktor Zhirkov
+    title: Developer
+    photo: viktor.jpg
+    linkedin: https://www.linkedin.com/in/viktor-zhirkov-6aa966165/
+-
   - 
-    name: Greg Hemmer
-    title: Partnership Manager
-    photo: GregHemmer.jpeg
-    linkedin: https://www.linkedin.com/in/greg-hemmer/
+    name: Michael Mayes
+    title: Evangelist
+    photo: michael.jpg
+    linkedin: https://www.linkedin.com/in/michaeldmayes/
   - 
     name: Marc Mattox
     title: Community Relations
     photo: marc.jpg
     linkedin: https://www.linkedin.com/in/marcmattox/
   - 
-    name: Leon Gaban
+    name: James Ross
     title: Community Relations
-    photo: LeonGaban.jpg
-    linkedin: https://www.linkedin.com/in/leongaban/
+    photo: james.jpg
+    linkedin: https://www.linkedin.com/in/jamestross/
 -
   - 
     name: Grant Gulovsen
@@ -114,11 +120,6 @@
     title: Advisor
     photo: gsyed.jpg
     linkedin: https://www.linkedin.com/in/gsyed/
-  - 
-    name: Naoll Merdassa
-    title: Advisor
-    photo: NaollMerdassa.jpg
-    linkedin: https://www.linkedin.com/in/naoll/
 -
   -
     name: You?

@@ -5,19 +5,6 @@
 <html lang="en" prefix="og: http://ogp.me/ns#">
 
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147135966-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-
-            gtag('config', 'UA-147135966-1');
-        </script>
-
-    <!-- reCaptcha -->
-    <script src="https://www.google.com/recaptcha/api.js?onload=myCallBack&render=explicit" async defer></script>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico" />
@@ -38,7 +25,8 @@
     <!-- Google Font  -->
     <link href="https://fonts.googleapis.com/css?family=Catamaran:300,400,500,600,700" rel="stylesheet">
     <!-- fontawesome icon -->
-    <link href="assets/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <!-- icofont icon -->
     <link rel="stylesheet" href="assets/fonts/icofont.css">
     <!-- animate CSS -->
@@ -54,15 +42,6 @@
     <link rel="stylesheet" href="node_modules/jquery-toast-plugin/dist/jquery.toast.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/our-styles.css">
-    <!-- Include base CSS (optional) -->
-    <!-- <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/base.min.css"
-  /> -->
-  <link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"
-/>
     <link rel="stylesheet" href="assets/css/uniswap-widget.css">
 </head>
 
@@ -73,18 +52,12 @@
             <a class="navbar-brand js-scroll-trigger" href="#page-top"><img class="img-fluid" src="assets/img/logo.svg" alt="Shardus logo"></a>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 MENU
-                <i class="fas fa-bars"></i>
+                <i class="fa fa-bars"></i>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link js-scroll-trigger" href="https://bit.ly/Shardus2019Q4Video" target=_blank>Event</a>
-<!--
-                        <a class="nav-link js-scroll-trigger" href="https://twitter.com/ShardusLedger" target=_blank>Event</a>
--->
                     </li>
                     <li class="nav-item">
                         <a class="nav-link js-scroll-trigger" href="#about">Technology</a>
@@ -116,10 +89,9 @@
                           Resources
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                          <a class="dropdown-item" href="{{ site.data.links.whitepaper }}" target=_blank>Whitepaper</a>
-                          <a class="dropdown-item" href="https://github.com/Shardus/shardus.github.io/wiki" target=_blank>Wiki</a>
-                          <a class="dropdown-item" href="https://shardus.gitlab.io/docs/developer/" target=_blank>Developer Docs</a>
-                          <a class="dropdown-item" href="{{ site.data.links.legalopinion }}" target=_blank>Legal Opinion</a>
+                          <a class="dropdown-item" href="{{ site.data.links.whitepaper }}">Whitepaper</a>
+                          <a class="dropdown-item" href="https://github.com/Shardus/shardus.github.io/wiki">Wiki</a>
+                          <a class="dropdown-item" href="ULC_Legal_Opinion_v4.pdf">Legal Opinion</a>
                         </div>
                       </div>
                     </li>
@@ -128,8 +100,6 @@
         </div>
     </nav>
     <!-- END NAVBAR -->
-
-    
 
   
   <!-- START SLIDER STATIC -->
@@ -285,31 +255,18 @@
         </div>
     </section>
 
-    <!-- Start Token Section -->
+    <!-- Start Bounties Section -->
     <section id="token" class="section-padding">
         <div class="container">
             <div class="section-title text-center token-section">
                 <h3>Token</h3>
                 <span class="underline"></span>
-                <p>The Shardus Token was previously called the "Unblocked Ledger Token" with the symbol ULT. It may still be listed on other sites with this name and symbol.The Shardus Tokens available to buy are offered by individuals who have earned the tokens. They are not offered by the Shardus project.</p>            
-        </div>
-        
-
-
-
-        <div class="js-choice">
-
-        </div>
-
-            <!--- END ROW -->
-            <div id="uniswap-convert-section"></div>
-	    
-		
-            <div class="section-title text-center token-section">
-                <p>The Shardus Token is an ERC-20 compliant token. The token is distributed for direct services contributed to the Shardus project and used for <a href="https://github.com/Shardus/shardus.github.io/wiki/Shardus-Token" target=_blank>licensing the Shardus software</a>. If you want to earn Shardus tokens, please <a href="https://docs.google.com/forms/d/1VTvBZey869k7V3tDoLswy8dQ5MeNztPokBvq-k4R2lA/edit" target=_blank>let us know</a> what you can do for the project. A report of <a href="https://github.com/Shardus/shardus.github.io/wiki/Distribution-Report">distributed tokens</a> is published each month. 
+                <p>To incentivize development of Shardus, we are giving an ERC-20 compliant Shardus token to developers, advisers, promoter, bounty hunters and others  who contribute to the project.  If you want to earn Shardus tokens, please <a href="email:info@shardus.com" target=_blank>let us know</a> what you can do for the project. A report of <a href="https://github.com/Shardus/shardus.github.io/wiki/Distribution-Report">distributed tokens</a> will be published each month.
+		    Enterprises that use the Shardus software will need to obtain a license token by sending Shardus tokens to the Shardus smart contract which will burn the tokens and issue a license token. Public projects which use the Shardus software will need to distribute a portion of their coins to the Shardus tokens holders. The <a href="https://github.com/Shardus/shardus.github.io/wiki/Liberdus-Coin">Liberdus coin</a> will be the first public project based on the Shardus technology and distribute coins to Shardus token holders.</p>
                 <br/>
-	        <p>Market information on: <a href="https://www.coingecko.com/en/coins/shardus" target="_blank">CoinGecko</a>
-	    </div>
+                <p>The Shardus Token was previously called the "Unblocked Ledger Token" with the symbol ULT. It may still be listed on other sites and exchanges with this name and symbol.</p>
+                <br/>
+                <p>This widget to trade Shardus Tokens is powered by <a href="https://uniswap.io/" target=_blank>Uniswap</a> and the Shardus Tokens available to buy are offered by individuals who have earned the tokens. They are not offered by the Shardus project.</p>            </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
                     <div class="boucher-promo">
@@ -320,11 +277,12 @@
                 </div>
                 <!-- end col -->
             </div>
-	  
+            <!--- END ROW -->
+            <div id="uniswap-convert-section"></div>
         </div>
         <!--- END CONTAINER -->
     </section>
-    <!-- End Token Section -->
+    <!-- End Bounties Section -->
 
     <!-- Start Bounties Section -->
     <section id="bounties" class="section-padding section-back-image join-section">
@@ -332,7 +290,8 @@
             <div class="section-title text-center">
                 <h3 class="white">Bounties</h3>
                 <span class="underline"></span>
-                <p class="white">We offer various bounties for finding errors, video production, referring developers and more. Current bounties can be found here.</p>
+		    <p class="white">Earn Shardus tokens through our <a href="https://bounty.shardus.com/">social media bounty</a>. </p>
+                <p class="white">We also offer various bounties for social media influencers, video production, referring developers and more. Current bounties can be found here.</p>
 
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
                   <div class="boucher-promo">
@@ -346,15 +305,17 @@
                 <p class="white">To stay up-to-date with the Shardus project, subscribe to our newsletter! </p>
             </div>
             <div class="newsletter-form-bounty">
-                 <form class="newsletter-form description" id="bountyForm" name="theform" action="https://app.mailerlite.com/webforms/submit/r8m8m0" data-code="r8m8m0" method="post" target="_blank">
+                 <form class="newsletter-form description" id="bountyForm" name="theform" action="https://my.sendinblue.com/users/subscribeembed/js_id/387o4/id/1" method="POST">
+                    <input type="hidden" name="js_id" value="387o4">
+                    <input type="hidden" name="listid" value="4">
+                    <input type="hidden" name="from_url" value="yes">
+                    <input type="hidden" name="hdn_email_txt" value="">
+                    <input type="hidden" name="sib_simple" value="simple">
+                    <input type="hidden" name="sib_forward_url" value="https://shardus.com">
+                    <input type="hidden" name="req_hid" value="" style="font-size: 13px;">
                      <div class="form-group">
-                        <input type="email" class="form-email" data-inputmask="" name="fields[email]" placeholder="Your Email" autocomplete="email">
-                         <div class="text-center captcha-wrap">
-                            <div class="g-recaptcha" id="gcaptcha1"></div>
-                         </div>
-                         <input type="hidden" name="ml-submit" value="1">
-                         <button type="submit" class="send-btn" data-editfield="subscribe"><span class="fas fa-paper-plane"></span></button>
-                         <img src="https://track.mailerlite.com/webforms/o/1676002/r8m8m0?v4a60e9ef938a7fa0240ac9ba567062cb" width="1" height="1" style="max-width:1px;max-height:1px;visibility:hidden;padding:0;margin:0;display:block" alt="." border="0">
+                         <input required type="email" name="email" class="form-email" value="" placeholder="Your E-mail">
+                         <button type="submit" name="subscribe" class="send-btn" data-editfield="subscribe"><span class="fa fa-paper-plane-o"></span></button>
                      </div>
                  </form>
             </div>
@@ -505,8 +466,11 @@
                                     <h3 class="timeline-title"> ✓ Social Media Content</h3>
                                     <p>Videos, blog posts and other content explaining the Shardus project were developed.</p>
 				    <p>&nbsp;</p>
+                                    <h3 class="timeline-title"> ✓ Bounty Managment Software Developed</h3>
+                                    <p>Software was developed to manage a social media bounty program.</p>
+				    <p>&nbsp;</p>
                                     <h3 class="timeline-title"> ✓ Quarterly Status Event</h3>
-				    <p>The team <a href="https://youtu.be/Nbhb2y7r_ns" target=_blank>gave a presentation</a> of the project and demonstration of current milestone.</p>
+				    <p>The team <a href="https://www.youtube.com/watch?v=Nbhb2y7r_ns" target=_blank>gave a presentation</a> of the project and demonstration of current milestone.</p>
 				</div>
                             </li>                                   
                             <li class="timeline-item">
@@ -515,54 +479,45 @@
                                 </div>
                                 <div class="timeline-marker"></div>
                                 <div class="timeline-content">
-                                    <h3 class="timeline-title"> ✓ Shardus Enterprise Server</h3>
+                                    <h3 class="timeline-title">Shardus Enterprise Server</h3>
                                     <p>The first version of the Shardus server software will be developed using only one shard and simple transactions.</p>
 				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title"> ✓ Shardus Wallet Update</h3>
+                                    <h3 class="timeline-title">Shardus Wallet Update</h3>
                                     <p>The Shardus mobile and web wallet will be updated to work with the Enterprise server.</p>
 				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title"> ✓ Quarterly Status Event</h3>
-				    <p>The team <a href="https://youtu.be/lEg2-Q9bR1U" target=_blank>gave a presentation</a> of the project and demonstration of current milestone.</p>
+                                    <h3 class="timeline-title">Social Media Bounty Program</h3>
+                                    <p>Awareness of the project is increased through a social media bounty program.</p>
+				    <p>&nbsp;</p>
+                                    <h3 class="timeline-title">Quarterly Status Event</h3>
+                                    <p>The team will give a presentation of the project and demonstration of current milestone.</p>
                                 </div>
                             </li>
 
-			    <li class="timeline-item period">
+                            <li class="timeline-item period">
                                 <div class="timeline-info"></div>
                                 <div class="timeline-marker"></div>
                                 <div class="timeline-content">
                                     <h2 class="timeline-title">2019</h2>
                                 </div>
                             </li>                        
-			    <li class="timeline-item">
+                            <li class="timeline-item">
                                 <div class="timeline-info">
                                     <span>Q1 2019</span>
                                 </div>
                                 <div class="timeline-marker"></div>
                                 <div class="timeline-content">
-                                    <h3 class="timeline-title"> ✓ Shardus Enterprise Server</h3>
-                                    <p>Node rotation, load detection, rate limiting and auto scaling added to the Shardus server software.</p>
-				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title"> ✓ Shardus Wallet Update</h3>
-                                    <p>The Shardus mobile and web wallet will be updated to work with the Enterprise server.</p>
-				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title"> ✓ Quarterly Status Event</h3>
-				    <p>The team <a href="https://youtu.be/Lpush06ipE0" target=_blank>gave a presentation</a> of the project and demonstration of current milestone.</p>
+                                    <h3 class="timeline-title">Shardus Global Server</h3>
+                                    <p>The Shardus software will be developed to allow parallel processing of transactions and storage of data across multiple shards.</p>
                                 </div>
                             </li>
-			    <li class="timeline-item">
+                            <li class="timeline-item">
                                 <div class="timeline-info">
                                     <span>Q2 2019</span>
                                 </div>
                                 <div class="timeline-marker"></div>
                                 <div class="timeline-content">
-                                    <h3 class="timeline-title"> ✓ Shardus Enterprise Server</h3>
-                                    <p>Node lost detection.</p>
-				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title"> ✓ Shardus Global Server</h3>
-                                    <p>Initial implementation of sharding. Demo sharding in static network.</p>
-				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title"> ✓ Quarterly Status Event</h3>
-                                    <p>The team <a href="https://youtu.be/K2pQZwcUgNw" target=_blank>gave a presentation</a> of the project and demonstration of sharding in a static network.</p>
+                                    <h3 class="timeline-title">Shardus Universal Server</h3>
+                                    <p>The Shardus software will be developed to allow complex transaction across multiple shards.</p>
                                 </div>
                             </li>
                             <li class="timeline-item">
@@ -571,14 +526,8 @@
                                 </div>
                                 <div class="timeline-marker"></div>
                                 <div class="timeline-content">
-                                    <h3 class="timeline-title"> ✓ Shardus Global Server</h3>
-                                    <p>Demo sharding in dynamic network. Support for archive server and data repair in progress.</p>
-				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title"> ✓ Liberdus Website Development</h3>
-                                    <p>The Liberdus payment network Website developed to build a community for the project.</p>
-				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title"> ✓ Quarterly Status Event</h3>
-                                    <p>The team <a href="https://youtu.be/9D6GLjw4axk" target=_blank>demonstrated</a> sharding in a dynamic network to acheive linear scaling.</p>
+                                    <h3 class="timeline-title">Liberdus Server Development</h3>
+                                    <p>The Liberdus payment network application will be developed by forking the Shardus software and modifying the application layer.</p>
                                 </div>
                             </li>
                             <li class="timeline-item">
@@ -587,17 +536,8 @@
                                 </div>
                                 <div class="timeline-marker"></div>
                                 <div class="timeline-content">
-                                    <h3 class="timeline-title"> ✓ Shardus Global Server</h3>
-                                    <p>Support for archive server and data repair in progress.</p>
-				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title"> ✓ Liberdus Server Development</h3>
-                                    <p>The Liberdus payment network application was developed by forking the Shardus software and modifying the application layer.</p>
-				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title"> ✓ Liberdus Wallet Development</h3>
-                                    <p>The Liberdus wallet was developed with support for coin transfer, secure messaging, and DAO for funding projects and adjusting economic parameters.</p>
-				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title"> ✓ Quarterly Status Event</h3>
-                                    <p>The team <a href="https://youtu.be/Pnt4F_YIxJc" target=_blank>demonstrated</a> the Liberdus network and wallet</p>
+                                    <h3 class="timeline-title">Liberdus Test Network</h3>
+                                    <p>The public Liberdus test network will be released for users to download the binaries and join the network.</p>
                                 </div>
                             </li>
 
@@ -611,19 +551,6 @@
                             <li class="timeline-item">
                                 <div class="timeline-info">
                                     <span>Q1 2020</span>
-                                </div>
-                                <div class="timeline-marker"></div>
-                                <div class="timeline-content">
-                                    <h3 class="timeline-title">Shardus Global Server</h3>
-                                    <p>Development of archive server and data repair in progress.</p>
-				    <p>&nbsp;</p>
-                                    <h3 class="timeline-title">Liberdus Test Network</h3>
-                                    <p>The public Liberdus test network will be released for users to download the binaries and join the network.</p>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <div class="timeline-info">
-                                    <span>Q2 2020</span>
                                 </div>
                                 <div class="timeline-marker"></div>
                                 <div class="timeline-content">
@@ -659,7 +586,7 @@
                     <div class="member-info">
                       <strong class="member-name">{{ member.name }}</strong>
                       <p class="member-title">{{ member.title }}</p>
-                      <a class="member-link js-scroll-trigger" href="{{ member.linkedin }}"><i class="fas fa-link fa-lg" aria-hidden="true"></i></a>
+                      <a class="member-link js-scroll-trigger" href="{{ member.linkedin }}"><i class="fa fa-link fa-lg" aria-hidden="true"></i></a>
                     </div>
                   </div>
                 {% endfor %}
@@ -727,17 +654,14 @@
             <div class="section-title text-center">
                 <h3 class="white">Join Us</h3>
                 <span class="underline"></span>
-		<p class="white">We are giving Shardus tokens (an ERC-20 token) to developers, advisers, promoter, bounty hunters and others  who contribute to the project. If you can support the project in other ways, please let us know.</p>
+                <p class="white">The development of Shardus will be incentivized by distributing the Shardus Token for code development and other bounties. There will not be any presale or ICO. If you are excited about this project and want to earn the Shardus Token, please apply to join our team. We are always looking for talented Node.js, Go and Haskell developers.</p>
+		<p class="white">We are giving Shardus tokens (an ERC-20 token) to developers, advisers, promoter, bounty hunters and others  who contribute to the project.  If you want to earn Shardus tokens, please <a href="email:info@shardus.com" target=_blank>let us know</a> what you can do for the project.</p>
             </div>
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
                     <div class="boucher-promo">
                         <div class="boucher-order">
                             <a href="https://goo.gl/forms/csV4Qh1JCHcKNsbh1" class="js-scroll-trigger btn-order">Apply to be a dev</a>
-                        </div>
-			<hr/>
-                        <div class="boucher-order">
-                            <a href="https://docs.google.com/forms/d/1VTvBZey869k7V3tDoLswy8dQ5MeNztPokBvq-k4R2lA/" class="js-scroll-trigger btn-order" target=_blank>Become a Supporter</a>
                         </div>
                     </div>
                 </div>
@@ -798,17 +722,19 @@
                          <div class="widget-content">
                            <div class="text">Stay updated with our latest news.</div>
                               <div class="newsletter-form-footer">
-                                 <form class="newsletter-form description" id="footerForm" name="theform" action="https://app.mailerlite.com/webforms/submit/r8m8m0" data-code="r8m8m0" method="post" target="_blank">
-                                    <div class="form-group">
-                                       <input type="email" class="form-email" data-inputmask="" name="fields[email]" placeholder="Your Email" autocomplete="email">
-                                        <div class="text-center captcha-wrap">
-                                           <div class="g-recaptcha" id="gcaptcha2"></div>
-                                        </div>
-                                        <input type="hidden" name="ml-submit" value="1">
-                                        <button type="submit" class="send-btn" data-editfield="subscribe"><span class="fas fa-paper-plane"></span></button>
-                                        <img src="https://track.mailerlite.com/webforms/o/1676002/r8m8m0?v4a60e9ef938a7fa0240ac9ba567062cb" width="1" height="1" style="max-width:1px;max-height:1px;visibility:hidden;padding:0;margin:0;display:block" alt="." border="0">
-                                    </div>
-                                </form>
+                                 <form class="newsletter-form description" id="footerForm" name="theform" action="https://my.sendinblue.com/users/subscribeembed/js_id/387o4/id/1" method="POST">
+                                    <input type="hidden" name="js_id" value="387o4">
+                                    <input type="hidden" name="listid" value="4">
+                                    <input type="hidden" name="from_url" value="yes">
+                                    <input type="hidden" name="hdn_email_txt" value="">
+                                    <input type="hidden" name="sib_simple" value="simple">
+                                    <input type="hidden" name="sib_forward_url" value="https://shardus.com">
+                                    <input type="hidden" name="req_hid" value="" style="font-size: 13px;">
+                                     <div class="form-group">
+                                         <input required type="email" name="email" class="form-email" value="" placeholder="Your E-mail">
+                                         <button type="submit" name="subscribe" class="send-btn" data-editfield="subscribe"><span class="fa fa-paper-plane-o"></span></button>
+                                     </div>
+                                 </form>
                               </div>
                          </div>
                      </div>
@@ -828,15 +754,6 @@
     ==End footer section==  
     =======================================-->
 
-    <!-- reCaptcha -->
-    <script> 
-        // var verifyCallback = function(response) { if(response.length > 0) { $(".captcha > div.row > div.message_area").remove(); } };
-        var myCallBack = function() { 
-            if($('#gcaptcha1').length > 0) { var captcha = grecaptcha.render('gcaptcha1', { 'sitekey' : '6Lf1KHQUAAAAAFNKEX1hdSWCS3mRMv4FlFaNslaD', 'theme' : 'dark' }); }
-            if($('#gcaptcha2').length > 0) { var captcha = grecaptcha.render('gcaptcha2', { 'sitekey' : '6Lf1KHQUAAAAAFNKEX1hdSWCS3mRMv4FlFaNslaD', 'theme' : 'dark', 'size' : 'compact' }); }
-        };
-    </script>
-    <!-- End reCaptcha -->
 
     <!-- Latest jQuery -->
     <script src="assets/js/jquery-2.2.4.min.js"></script>
@@ -877,28 +794,25 @@
 
     <!-- Our Homebrew Scripts -->
     <script src="assets/js/scripts.js"></script><script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="assets/js/uniswap-widget.js"></script>
     <script>
-    // change mainToken field as needed
-    let mainConfig = {
-        mainToken: {
-            symbol: 'ULT',
-            tokenAddress: '0x09617F6fD6cF8A71278ec86e23bBab29C04353a7',
-            exchangeAddress: '0x28d9353611c5a0d5a026a648c05e5d6523e41cbf'
-        },
-        mainServerUrl: 'https://uniswapdex.com:8889',
-    }
-    let widgetConfig = {
-        mainToken: mainConfig.mainToken,
-        tokenListUrl: 'https://beta.shardus.com/assets/js/tokenDB.json',
-        summaryUrl: `${mainConfig.mainServerUrl}/api/summary?tokenAddress=${mainConfig.mainToken.tokenAddress}`,
-        chartUrl: `https://uniswapdex.com/?token=${mainConfig.mainToken.tokenAddress}`,
-        logoUrl: `${mainConfig.mainServerUrl}/static/${mainConfig.mainToken.tokenAddress.toLowerCase()}.png`,
-        widgetTitle: '',
-        mainConfig
-    }
-    UniswapConvertWidget(widgetConfig)
+        let config = {
+           mainToken: {
+               symbol: 'ULT',
+               exchangeAddress: '0x28d9353611C5A0d5a026A648c05E5d6523e41CBf'
+           },
+           tokenListUrl: 'https://beta.shardus.com/assets/js/tokenDB.json',
+          chartServerUrl: 'https://bounty.shardus.com:8889',
+          chartUrl: 'http://172.104.57.87:3333/',
+        //   chartServerUrl: 'http://172.104.247.243:8888',
+           colorScheme: {
+               mainColor: 'red',
+               secondaryColor: 'black'
+           },
+           logoUrl: 'https://beta.shardus.com/assets/img/logo.svg',
+           widgetTitle: ''
+       }
+       UniswapConvertWidget(config)
     </script>
 
 </body>

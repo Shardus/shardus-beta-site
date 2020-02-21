@@ -1,9 +1,12 @@
 -
+  name: GitHub
+  url: https://github.com/Shardus
+-
   name: Twitter
   url: https://twitter.com/ShardusLedger
 -
-  name: YouTube
-  url: https://www.youtube.com/channel/UC-DQu61lxOvicMi0VsSIAtA
+  name: Reddit
+  url: https://reddit.com/r/Shardus
 -
   name: Medium
   url: https://medium.com/@Shardus
@@ -12,16 +15,7 @@
   url: https://steemit.com/@Shardus
 -
   name: Telegram
-  url: https://t.me/shardusnews
+  url: https://t.me/ShardusAnnouncements
 -
-  name: Discord
-  url: https://discord.gg/UBYEcu
--
-  name: Reddit
-  url: https://reddit.com/r/Shardus
--
-  name: GitHub
-  url: https://github.com/Shardus
--
-  name: GitLab
-  url: https://gitlab.com/Shardus
+  name: YouTube
+  url: https://www.youtube.com/channel/UC-DQu61lxOvicMi0VsSIAtA
