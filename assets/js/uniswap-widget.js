@@ -1745,12 +1745,10 @@ let UniswapConvertWidget = async function(config) {
 
     if (selector === ".input-token-dropdown") {
       inputOptionsForTokens = inputOptionsForTokens.filter(token => {
-        if (G.ownedTokenList.length > 0) {
-          const isOwnedToken = G.ownedTokenList.find(
-            t => t.tokenAddress.toLowerCase() === token.tokenAddress.toLowerCase()
-          );
-          if (isOwnedToken) return true;
-        }
+        const isOwnedToken = G.ownedTokenList.find(
+          t => t.tokenAddress.toLowerCase() === token.tokenAddress.toLowerCase()
+        );
+        if (isOwnedToken) return true;
         return false;
       });
     }
@@ -1861,11 +1859,9 @@ let UniswapConvertWidget = async function(config) {
     G.summaryList = await getSummaryList();
     G.tokenList = await getTokenList();
     G.ownedTokenList = await getOwnedTokenList();
-    console.log(G)
     G.exchangeContracts = {};
     G.tokenContracts = {};
     G.exchangeAddresses = {};
-    G.ownedTokenList = []
 
     for (let i = 0; i < G.tokenList.length; i += 1) {
       const token = G.tokenList[i];
@@ -2657,27 +2653,34 @@ let UniswapConvertWidget = async function(config) {
                           </div>
                        </div>
     
-                      <div class="input-container">
-                          <div class="input-group">
-                              <label for=""><strong>To</strong></label>
-                              <select id="outputCurrency" class="output-token-dropdown">
-                              
-                              </select>
-                          </div>
-                          <div class="input-group">
-                              <label for="">Enter amount</label>
-                              <input
-                                type="text"
-                                class="form-control"
-                                aria-label="outputValue"
-                                id="outputValue"
-                                name="outputValue"
-                                autocomplete="off"
-                              />
-                          </div>
-                      </div>
+                      
+    
+             <div class="input-container">
+                <div class="input-group">
+                    <label for=""><strong>To</strong></label>
+                    <select id="outputCurrency" class="output-token-dropdown">
+                     
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="">Enter amount</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      aria-label="outputValue"
+                      id="outputValue"
+                      name="outputValue"
+                      autocomplete="off"
+                    />
+                </div>
+             </div>
                         
                       </div>
+
+
+                     
+
+
                       <div class="modal-footer">
                         <div class="row">
                             <div class="col-md-5" id="exchange-info">
