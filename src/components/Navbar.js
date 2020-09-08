@@ -16,6 +16,8 @@ const Navbar = () => {
         <li>TEAM</li>
         <li>FAQ</li>
         <li>JOIN</li>
+        <li>RESOURCES</li>
+
       </ul>
     </nav>
   );

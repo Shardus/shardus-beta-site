@@ -1,0 +1,12 @@
+section {
+  margin-right: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  
+
+}
+
+.container {
+  margin-right: 0;
+}
